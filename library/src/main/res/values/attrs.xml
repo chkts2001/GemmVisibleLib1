@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DefaultMaterialButton">
+        <attr name="buttonCornerRadius" format="dimension" />
+        <attr name="buttonBackgroundColor" format="color" />
+        <attr name="buttonGradientStart" format="color" />
+        <attr name="buttonGradientEnd" format="color" />
+        <attr name="buttonStrokeWidth" format="dimension" />
+        <attr name="buttonStrokeColor" format="color" />
+
+        <attr name="buttonIcon" format="reference" />
+        <attr name="buttonIconPosition" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="top" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="center" value="4" />
+        </attr>
+        <attr name="buttonIconPadding" format="dimension" />
+
+        <attr name="buttonTextColor" format="color|reference" />
+        <attr name="buttonTextSize" format="dimension" />
+        <attr name="buttonTypeface" format="string" />
+    </declare-styleable>
+</resources>
