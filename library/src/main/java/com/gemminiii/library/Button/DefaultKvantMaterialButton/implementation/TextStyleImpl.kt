@@ -11,12 +11,12 @@ class TextStyleImpl : ButtonText {
         button: MaterialButton,
         text: String?,
         textColor: ColorStateList?,
-        textSize: Float,
+        textSize: Int,
         typeface: Typeface?
     ) {
         text?.let { button.text = it }
         textColor?.let { button.setTextColor(it) }
-        if (textSize > 0) button.textSize = textSize
+        if (textSize > 0) button.textSize = textSize.toFloat()
         typeface?.let { button.typeface = it }
     }
 

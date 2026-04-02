@@ -40,7 +40,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
     private var iconPadding: Int = 0
 
     private var customTextColor: ColorStateList? = null
-    private var customTextSize: Float = 0f
+    private var customTextSize: Float = 12f
     private var customTypeface: Typeface? = null
 
     private var scaleAnimator: ObjectAnimator? = null
@@ -65,7 +65,9 @@ class DefaultMaterialButton @JvmOverloads constructor(
                     // Иконка
                     val iconRes = getResourceId(R.styleable.DefaultMaterialButton_buttonIcon, 0)
                     iconDrawable = if (iconRes != 0) ContextCompat.getDrawable(context, iconRes) else null
-                    iconPosition = when (getInt(R.styleable.DefaultMaterialButton_buttonIconPosition, 2)) {
+                    iconSize = (getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonIconSize, 20) / resources.displayMetrics.scaledDensity).toInt()
+                    iconTint = getColorStateList(R.styleable.DefaultMaterialButton_buttonIconTint)
+                    iconPosition = when (getInt(R.styleable.DefaultMaterialButton_buttonIconGravity, 2)) {
                         0 -> ButtonIcon.IconPosition.START
                         1 -> ButtonIcon.IconPosition.END
                         2 -> ButtonIcon.IconPosition.CENTER
@@ -74,7 +76,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
                     // Текст
                     customTextColor = getColorStateList(R.styleable.DefaultMaterialButton_buttonTextColor)
-                    customTextSize = getDimension(R.styleable.DefaultMaterialButton_buttonTextSize, 0f)
+                    customTextSize = getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonTextSize, 12) / resources.displayMetrics.scaledDensity
 
                     val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)
                     customTypeface = typefaceRes?.let { Typeface.create(it, Typeface.NORMAL) }
@@ -88,6 +90,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private fun applyStyles() {
         try {
+            super.backgroundTintList = null
             // Применяем фон
             background = buttonDrawable.createBackground(
                 cornerRadius,
@@ -96,21 +99,33 @@ class DefaultMaterialButton @JvmOverloads constructor(
                 strokeColor
             )
 
-            // Применяем текст
-            val textColor = customTextColor ?: buttonState.getStateColors()
-            if (textColor != null) {
-                buttonText.applyTextStyle(
-                    this,
-                    text?.toString(),
-                    customTextColor ?: buttonState.getStateColors(),
-                    customTextSize.takeIf { it > 0 } ?: textSize,
-                    customTypeface
-                )
+            if (customTextColor != null) {
+                super.setTextColor(customTextColor!!)
             }
+
+            if (customTextSize > 0) {
+                super.setTextSize(customTextSize)
+            }
+
+            customTypeface?.let {
+                super.setTypeface(it)
+            }
+
+            // Применяем текст
+//            val textColor = customTextColor ?: buttonState.getStateColors()
+//            if (textColor != null) {
+//                buttonText.applyTextStyle(
+//                    this,
+//                    text?.toString(),
+//                    customTextColor ?: buttonState.getStateColors(),
+//                    customTextSize.takeIf { it > 0 } ?: textSize,
+//                    customTypeface
+//                )
+//            }
 
             // Применяем иконку
             iconDrawable?.let {
-                buttonIcon.applyIcon(this, it, iconPosition)
+                buttonIcon.applyIcon(this, it, iconSize, iconTint, iconPosition)
             }
         }catch(e: Exception){
             e.printStackTrace()
@@ -179,21 +194,21 @@ class DefaultMaterialButton @JvmOverloads constructor(
         )
     }
 
-    fun setIcon(icon: android.graphics.drawable.Drawable?, position: ButtonIcon.IconPosition = this.iconPosition) {
+    fun setIcon(icon: android.graphics.drawable.Drawable?, iconSize: Int, iconTint: ColorStateList, position: ButtonIcon.IconPosition = this.iconPosition) {
         iconDrawable = icon
         iconDrawable?.let {
-            buttonIcon.applyIcon(this, it, position)
+            buttonIcon.applyIcon(this, it, iconSize, iconTint, position)
         } ?: buttonIcon.removeIcon(this)
     }
 
     override fun setTextColor(colorStateList: ColorStateList) {
         customTextColor = colorStateList
-        buttonText.updateTextColor(this, colorStateList)
+        super.setTextColor(colorStateList)
     }
 
     override fun setTextSize(size: Float) {
         customTextSize = size
-        buttonText.updateTextSize(this, size)
+        super.setTextSize(size)
     }
 
     override fun onDetachedFromWindow() {

@@ -10,7 +10,7 @@ interface ButtonText {
         button: MaterialButton,
         text: String?,
         textColor: ColorStateList?,
-        textSize: Float,
+        textSize: Int,
         typeface: Typeface?
     )
     fun updateTextColor(button: Button, colorStateList: ColorStateList)
