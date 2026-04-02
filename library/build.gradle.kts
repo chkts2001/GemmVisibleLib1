@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
+    //id("maven-publish")
 }
 
 android {
@@ -44,16 +44,18 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                groupId = "com.github.chkts2001"
-                artifactId = "gemm_visible_lib"
-                version = "0.1.2"
-
-                artifact("$buildDir/outputs/aar/library-release.aar")
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            create<MavenPublication>("release") {
+//                from(components["release"])
+//                groupId = "com.github.chkts2001"
+//                artifactId = "gemm_visible_lib"
+//                version = "0.1.2"
+//            }
+//        }
+//    }
+//    tasks.named("publishReleasePublicationToMavenLocal") {
+//        dependsOn(tasks.named("bundleReleaseAar"))
+//    }
+//}
