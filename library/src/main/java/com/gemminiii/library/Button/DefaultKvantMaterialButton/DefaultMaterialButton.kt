@@ -23,11 +23,11 @@ class DefaultMaterialButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-    private val buttonDrawable: ButtonDrawable = ButtonDrawableImpl(),
-    private val buttonIcon: ButtonIcon = IconButtonImpl(),
-    private val buttonState: ButtonState = ButtonStateImpl(),
-    private val buttonText: ButtonText = TextStyleImpl()
 ): MaterialButton(context, attrs, defStyleAttr) {
+    private val buttonDrawable: ButtonDrawable = ButtonDrawableImpl()
+    private val buttonIcon: ButtonIcon = IconButtonImpl()
+    private val buttonState: ButtonState = ButtonStateImpl()
+    private val buttonText: ButtonText = TextStyleImpl()
     private var cornerRadius: Float = 0f
     private var backgroundColor: Int = Color.TRANSPARENT
     private var gradientStartColor: Int = Color.TRANSPARENT
@@ -87,26 +87,33 @@ class DefaultMaterialButton @JvmOverloads constructor(
     }
 
     private fun applyStyles() {
-        // Применяем фон
-        background = buttonDrawable.createBackground(
-            cornerRadius,
-            backgroundColor,
-            strokeWidth,
-            strokeColor
-        )
+        try {
+            // Применяем фон
+            background = buttonDrawable.createBackground(
+                cornerRadius,
+                backgroundColor,
+                strokeWidth,
+                strokeColor
+            )
 
-        // Применяем текст
-        buttonText.applyTextStyle(
-            this,
-            text?.toString(),
-            customTextColor ?: buttonState.getStateColors(),
-            customTextSize.takeIf { it > 0 } ?: textSize,
-            customTypeface
-        )
+            // Применяем текст
+            val textColor = customTextColor ?: buttonState.getStateColors()
+            if (textColor != null) {
+                buttonText.applyTextStyle(
+                    this,
+                    text?.toString(),
+                    customTextColor ?: buttonState.getStateColors(),
+                    customTextSize.takeIf { it > 0 } ?: textSize,
+                    customTypeface
+                )
+            }
 
-        // Применяем иконку
-        iconDrawable?.let {
-            buttonIcon.applyIcon(this, it, iconPosition)
+            // Применяем иконку
+            iconDrawable?.let {
+                buttonIcon.applyIcon(this, it, iconPosition)
+            }
+        }catch(e: Exception){
+            e.printStackTrace()
         }
     }
 
