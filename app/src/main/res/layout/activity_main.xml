@@ -17,13 +17,5 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="6dp"
-        android:text="Тест библиотеки"
-        app:buttonCornerRadius="5dp"
-        app:buttonBackgroundColor="@android:color/black"
-        app:buttonIcon="@drawable/ic_update_vector"
-        app:buttonIconSize="12sp"
-        app:buttonIconGravity="end"
-        app:buttonIconTint="@color/black"
-        app:buttonTextSize="20sp"
-        app:buttonTextColor="@android:color/white" />
+        android:text="Тест библиотеки"/>
 </LinearLayout>

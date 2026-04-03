@@ -7,6 +7,7 @@
         <attr name="buttonGradientEnd" format="color" />
         <attr name="buttonStrokeWidth" format="dimension" />
         <attr name="buttonStrokeColor" format="color" />
+        <attr name="buttonPadding" format="dimension" />
 
         <attr name="buttonIcon" format="reference" />
         <attr name="buttonIconSize" format="dimension"/>
@@ -16,6 +17,7 @@
             <enum name="end" value="1" />
             <enum name="center" value="2" />
         </attr>
+
         <attr name="buttonIconPadding" format="dimension" />
         <attr name="buttonTextColor" format="color|reference" />
         <attr name="buttonTextSize" format="dimension" />

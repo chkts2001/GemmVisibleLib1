@@ -6,17 +6,18 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.ButtonConfigurable
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
-import com.gemminiii.library.R
 
-class DefaultButtonBuilder(private val context: Context) {
+class DefaultButtonBuilder(private val context: Context): ButtonConfigurable<DefaultButtonBuilder> {
     private var cornerRadius: Float = 0f
     private var backgroundColor: Int = Color.TRANSPARENT
     private var gradientStartColor: Int = Color.TRANSPARENT
     private var gradientEndColor: Int = Color.TRANSPARENT
     private var strokeWidth: Int = 0
     private var strokeColor: Int = Color.TRANSPARENT
+    private var buttonPadding = 6
 
     private var icon: Drawable? = null
     private var iconPosition: ButtonIcon.IconPosition = ButtonIcon.IconPosition.CENTER
@@ -29,42 +30,41 @@ class DefaultButtonBuilder(private val context: Context) {
     private var textSize: Int = 12
     private var typeface: Typeface? = null
 
-    fun setCornerRadius(radius: Float) = apply { this.cornerRadius = radius }
-    fun setBackgroundColor(color: Int) = apply { this.backgroundColor = color }
-    fun setGradient(startColor: Int, endColor: Int) = apply {
+    override fun sCornerRadius(radius: Float): DefaultButtonBuilder = apply { this.cornerRadius = radius }
+    override fun sBackgroundColor(color: Int): DefaultButtonBuilder = apply { this.backgroundColor = color }
+    override fun sGradient(startColor: Int, endColor: Int): DefaultButtonBuilder = apply {
         this.gradientStartColor = startColor
         this.gradientEndColor = endColor
     }
-    fun setStroke(width: Int, color: Int) = apply {
+
+    override fun sPaddings(padding: Int): DefaultButtonBuilder = apply{ this.buttonPadding = padding }
+    override fun sStroke(width: Int, color: Int): DefaultButtonBuilder = apply {
         this.strokeWidth = width
         this.strokeColor = color
     }
-    fun setIcon(iconRes: Int, iconSize: Int, iconTint: Int = android.R.color.white) = apply {
+    override fun sIcon(iconRes: Int, iconSize: Int, iconTint: Int): DefaultButtonBuilder = apply {
         this.icon = ContextCompat.getDrawable(context, iconRes)
         this.iconSize = iconSize
         this.iconTint = ColorStateList.valueOf(ContextCompat.getColor(context, iconTint))
     }
-    fun setIconGravity(position: ButtonIcon.IconPosition = ButtonIcon.IconPosition.CENTER) = apply {
+    override fun sIconGravity(position: ButtonIcon.IconPosition): DefaultButtonBuilder = apply {
         this.iconPosition = position
     }
-    fun setText(text: String) = apply { this.text = text }
-    fun setTextColor(color: Int) = apply { this.textColor = color }
-    fun setTextSize(size: Int) = apply { this.textSize = size }
-    fun setTypeface(typeface: Typeface) = apply { this.typeface = typeface }
+    override fun sText(text: String): DefaultButtonBuilder = apply { this.text = text }
+    override fun sTextColor(color: Int): DefaultButtonBuilder = apply { this.textColor = color }
+    override fun sTextSize(size: Int): DefaultButtonBuilder = apply { this.textSize = size }
+    override fun sTypeface(typeface: Typeface): DefaultButtonBuilder = apply { this.typeface = typeface }
+//    override fun sChange(): DefaultButtonBuilder = apply {}
 
     fun build(): DefaultMaterialButton {
         return DefaultMaterialButton(context).apply {
             setCornerRadius(cornerRadius)
-            if (gradientStartColor != Color.TRANSPARENT && gradientEndColor != Color.TRANSPARENT) {
-                setGradientColors(gradientStartColor, gradientEndColor)
-            } else if (backgroundColor != Color.TRANSPARENT) {
-                backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, backgroundColor))
-            }
+            backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, backgroundColor))
             setIcon(icon, iconSize, iconTint, iconPosition)
             text = this@DefaultButtonBuilder.text
             setTextColor(ColorStateList.valueOf(textColor))
             setTextSize(textSize)
-            typeface?.let { setTypeface(it) }
+            typeface?.let { sTypeface(it) }
         }
     }
 

@@ -12,7 +12,7 @@ class IconButtonImpl : ButtonIcon {
         button: MaterialButton,
         icon: Drawable?,
         size: Int,
-        tint: ColorStateList,
+        tint: ColorStateList?,
         position: ButtonIcon.IconPosition
     ) {
         icon?.let {
@@ -21,49 +21,20 @@ class IconButtonImpl : ButtonIcon {
             button.compoundDrawablePadding = 0
             button.iconSize = size
             button.iconTint = tint
-//            when (position) {
-//                ButtonIcon.IconPosition.START -> {
-//                    button.setCompoundDrawablesWithIntrinsicBounds(
-//                        it,
-//                        null,
-//                        null,
-//                        null
-//                    )
-//                }
-//
-//                ButtonIcon.IconPosition.END -> {
-//                    button.setCompoundDrawablesWithIntrinsicBounds(
-//                        null,
-//                        null,
-//                        it,
-//                        null
-//                    )
-//                    button.gravity = Gravity.CENTER_HORIZONTAL
-//                }
-//
-//                ButtonIcon.IconPosition.CENTER -> {
-//                    button.setCompoundDrawablesWithIntrinsicBounds(
-//                        it,
-//                        null,
-//                        null,
-//                        null
-//                    )
-//                    val originalText = button.text
-//                    button.text = null
-//                    button.gravity = Gravity.CENTER
-//                    button.tag = originalText
-//                }
-//            }
+            it.setBounds(0, 0, size, size)
             when (position) {
                 ButtonIcon.IconPosition.START -> {
-                    button.gravity = Gravity.CENTER_VERTICAL or Gravity.START
+                    button.iconGravity = MaterialButton.ICON_GRAVITY_START
+                    button.gravity = Gravity.CENTER
                 }
                 ButtonIcon.IconPosition.END -> {
-                    button.gravity = Gravity.CENTER_VERTICAL or Gravity.END
+                    button.iconGravity = MaterialButton.ICON_GRAVITY_END
+                    button.gravity = Gravity.CENTER
                 }
                 ButtonIcon.IconPosition.CENTER -> {
+                    button.tag = button.text.toString()
                     button.text = null
-                    button.gravity = Gravity.CENTER
+                    button.iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
                 }
             }
         }

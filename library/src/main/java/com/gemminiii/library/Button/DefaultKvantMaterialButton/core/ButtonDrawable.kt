@@ -9,12 +9,4 @@ interface ButtonDrawable {
         strokeWidth: Int,
         strokeColor: Int
     ): Drawable
-
-    fun updateBackground(
-        drawable: Drawable,
-        cornerRadius: Float,
-        backgroundColor: Int,
-        strokeWidth: Int,
-        strokeColor: Int
-    )
 }

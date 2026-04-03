@@ -9,7 +9,7 @@ interface ButtonIcon {
         button: MaterialButton,
         icon: Drawable?,
         size: Int,
-        tint: ColorStateList,
+        tint: ColorStateList?,
         position: IconPosition,
     )
 
