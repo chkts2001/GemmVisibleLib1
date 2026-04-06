@@ -2,6 +2,7 @@ package com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.Gravity
 import androidx.core.content.ContextCompat
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
@@ -19,6 +20,7 @@ class IconButtonImpl : ButtonIcon {
             button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             button.icon = it
             button.compoundDrawablePadding = 0
+            Log.d("_lib_", "inside: $size")
             button.iconSize = size
             button.iconTint = tint
             it.setBounds(0, 0, size, size)
@@ -34,6 +36,7 @@ class IconButtonImpl : ButtonIcon {
                 ButtonIcon.IconPosition.CENTER -> {
                     button.tag = button.text.toString()
                     button.text = null
+                    button.gravity = Gravity.CENTER
                     button.iconGravity = MaterialButton.ICON_GRAVITY_TEXT_START
                 }
             }

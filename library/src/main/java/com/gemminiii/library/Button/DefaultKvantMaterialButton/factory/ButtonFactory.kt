@@ -9,21 +9,17 @@ import com.gemminiii.library.R
 class ButtonFactory {
     fun createPrimaryButton(context: Context, text: String): DefaultMaterialButton {
         return DefaultButtonBuilder(context)
-            .sText(text)
+            .sText(text, 16, R.color.white)
             .sCornerRadius(12f)
-            .sTextColor(ContextCompat.getColor(context, R.color.white))
-            .sTextSize(16)
             .build()
     }
 
     fun createSecondaryButton(context: Context, text: String): DefaultMaterialButton {
         return DefaultButtonBuilder(context)
-            .sText(text)
+            .sText(text, 14, R.color.black)
             .sBackgroundColor(ContextCompat.getColor(context, R.color.white))
             .sCornerRadius(8f)
             .sStroke(2, ContextCompat.getColor(context, R.color.black))
-            .sTextColor(ContextCompat.getColor(context, R.color.black))
-            .sTextSize(14)
             .build()
     }
 
