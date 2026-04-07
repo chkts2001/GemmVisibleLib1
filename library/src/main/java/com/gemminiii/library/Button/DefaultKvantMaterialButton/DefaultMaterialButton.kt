@@ -8,9 +8,11 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.builder.DefaultButtonBuilder
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonDrawable
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonState
@@ -26,25 +28,11 @@ class DefaultMaterialButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-): MaterialButton(context, attrs, defStyleAttr), ButtonConfigurable<DefaultMaterialButton> {
+): MaterialButton(context, attrs, defStyleAttr) {
     private val buttonDrawable: ButtonDrawable = ButtonDrawableImpl()
-    private var width: Int = LinearLayout.LayoutParams.MATCH_PARENT
-    private var height: Int = 40
     private val buttonIcon: ButtonIcon = IconButtonImpl()
     private val buttonState: ButtonState = ButtonStateImpl()
     private val buttonText: ButtonText = TextStyleImpl()
-    private var cornerRadius: Float = 0f
-    private var backgroundColor: Int = Color.TRANSPARENT
-    private var gradientStartColor: Int = Color.TRANSPARENT
-    private var gradientEndColor: Int = Color.TRANSPARENT
-    private var strokeWidth: Int = 0
-    private var strokeColor: Int = Color.TRANSPARENT
-    private var buttonPadding: Int = 6
-
-    private var iconDrawable: android.graphics.drawable.Drawable? = null
-    private var iconPosition: ButtonIcon.IconPosition = ButtonIcon.IconPosition.START
-    private var iconSize: Int = 0
-    private var iconTint: ColorStateList? = null
 
     private var iconPadding: Int = 0
 
@@ -55,43 +43,62 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private var scaleAnimator: ObjectAnimator? = null
 
+    private var buttonConfig = ButtonConfig()
+
     init {
         initAttributes(attrs)
-        applyStyles()
     }
 
     private fun initAttributes(attrs: AttributeSet?) {
         attrs?.let {
             context.obtainStyledAttributes(it, R.styleable.DefaultMaterialButton).apply {
                 try {
-                    // Основные параметры
-                    cornerRadius = getDimension(R.styleable.DefaultMaterialButton_buttonCornerRadius,
-                        resources.getDimension(R.dimen.default_corner_radius))
-                    backgroundColor = getColor(R.styleable.DefaultMaterialButton_buttonBackgroundColor,
-                        Color.TRANSPARENT)
-                    strokeWidth = getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonStrokeWidth, 0)
-                    strokeColor = getColor(R.styleable.DefaultMaterialButton_buttonStrokeColor, Color.TRANSPARENT)
-                    buttonPadding = getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonPadding, 6)
+                    buttonConfig.apply {
+                        // Основные параметры
+                        cornerRadius = getDimension(
+                            R.styleable.DefaultMaterialButton_buttonCornerRadius,
+                            resources.getDimension(R.dimen.default_corner_radius)
+                        )
+                        backgroundColor = getColor(
+                            R.styleable.DefaultMaterialButton_buttonBackgroundColor,
+                            Color.TRANSPARENT
+                        )
+                        strokeWidth = getDimensionPixelSize(
+                            R.styleable.DefaultMaterialButton_buttonStrokeWidth,
+                            0
+                        )
+                        strokeColor = getColor(
+                            R.styleable.DefaultMaterialButton_buttonStrokeColor,
+                            Color.TRANSPARENT
+                        )
+                        padding = getDimensionPixelSize(
+                            R.styleable.DefaultMaterialButton_buttonPadding,
+                            6
+                        )
 
-                    // Иконка
-                    val iconRes = getResourceId(R.styleable.DefaultMaterialButton_buttonIcon, 0)
-                    iconDrawable = if (iconRes != 0) ContextCompat.getDrawable(context, iconRes) else null
-                    iconSize = getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonIconSize, 25)
-                    iconTint = getColorStateList(R.styleable.DefaultMaterialButton_buttonIconTint)
-                    iconPosition = when (getInt(R.styleable.DefaultMaterialButton_buttonIconGravity, 2)) {
-                        0 -> ButtonIcon.IconPosition.START
-                        1 -> ButtonIcon.IconPosition.END
-                        2 -> ButtonIcon.IconPosition.CENTER
-                        else -> ButtonIcon.IconPosition.CENTER
+                        // Иконка
+                        iconRes = getResourceId(R.styleable.DefaultMaterialButton_buttonIcon, 0)
+                        buttonConfig.iconSize = getDimensionPixelSize(
+                            R.styleable.DefaultMaterialButton_buttonIconSize,
+                            25
+                        )
+                        iconTint = getResourceId(R.styleable.DefaultMaterialButton_buttonIconTint, android.R.color.white)
+                        iconGravity =
+                            when (getInt(R.styleable.DefaultMaterialButton_buttonIconGravity, 2)) {
+                                0 -> ButtonIcon.IconPosition.START
+                                1 -> ButtonIcon.IconPosition.END
+                                2 -> ButtonIcon.IconPosition.CENTER
+                                else -> ButtonIcon.IconPosition.CENTER
+                            }
+
+                        // Текст
+                        textColor = getResourceId(R.styleable.DefaultMaterialButton_buttonTextColor, android.R.color.black)
+                        textSize = (getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonTextSize, 12) / resources.displayMetrics.scaledDensity).toInt()
+                        applyStyles(buttonConfig)
+
+                        //val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)
+                        //textTypeface = getFont(R.styleable.DefaultMaterialButton_buttonTypeface)
                     }
-
-                    // Текст
-                    customTextColor = getColorStateList(R.styleable.DefaultMaterialButton_buttonTextColor)
-                    customTextSize = getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonTextSize, 12) / resources.displayMetrics.scaledDensity
-
-                    val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)
-                    customTypeface = typefaceRes?.let { Typeface.create(it, Typeface.NORMAL) }
-
                 } finally {
                     recycle()
                 }
@@ -99,39 +106,94 @@ class DefaultMaterialButton @JvmOverloads constructor(
         }
     }
 
-    private fun applyStyles() {
+    fun applyStyles(config: ButtonConfig) {
         try {
-            backgroundTintList = null
-            // Применяем фон
-            background = buttonDrawable.createBackground(
-                cornerRadius,
-                backgroundColor,
+            config.apply {
+                // Применяем фон
+                backgroundTintList = null
+                super.background = buttonDrawable.createBackground(
+                    cornerRadius,
+                    ContextCompat.getColor(context, backgroundColor!!),
                 strokeWidth,
-                strokeColor,
-            )
-            val pxPadding = dpToPx(buttonPadding)
-            //super.setPadding( pxPadding, 0, pxPadding, 0)
-            super.setPadding( pxPadding, 0, pxPadding, 0)
-
-            if (customTextColor != null) {
-                super.setTextColor(customTextColor!!)
-            }
-
-            if (customTextSize > 0) {
-                super.setTextSize(customTextSize)
-            }
-
-            customTypeface?.let {
-                super.setTypeface(it)
-            }
-            Log.d("_lib_", "$iconSize")
-            buttonIcon.applyIcon(this, iconDrawable, iconSize, iconTint, iconPosition)
-
-            // Применяем иконку
-            iconDrawable?.let {
+                ContextCompat.getColor(context, strokeColor)
+                )
+                val pxPadding = padding
+                //super.setPadding( pxPadding, 0, pxPadding, 0)
+                super.setPadding(pxPadding, 0, pxPadding, 0)
+                text?.let {
+                    buttonText.applyTextStyle(this@DefaultMaterialButton,
+                        text,
+                        ColorStateList.valueOf(ContextCompat.getColor(context, textColor)),
+                        textSize,
+                        textTypeface)
+                }
+                Log.d("_lib_", "$iconSize")
+                iconRes?.let {
+                    buttonIcon.applyIcon(
+                        this@DefaultMaterialButton,
+                        ContextCompat.getDrawable(context, it),
+                        dpToPx(iconSize),
+                        ColorStateList.valueOf(ContextCompat.getColor(context, iconTint)),
+                        iconGravity
+                    )
+                }
+                setSizeParams(width, height)
+//                requestLayout()
+//                invalidate()
             }
         }catch(e: Exception){
             e.printStackTrace()
+        }
+    }
+
+    fun updateConfig(block: ButtonConfig.() -> Unit) {
+        buttonConfig = buttonConfig.copyWith(block)
+        applyStyles(buttonConfig)
+        forceUpdateSize()
+    }
+
+    private fun forceUpdateSize() {
+        val parent = parent as? ViewGroup
+
+        // Получаем новые размеры
+        val newWidth = convertSize(buttonConfig.width)
+        val newHeight = convertSize(buttonConfig.height)
+
+        Log.d("SizeDebug", "Force update: $newWidth x $newHeight")
+
+        // Способ 1: Прямое изменение
+        val lp = LinearLayout.LayoutParams(newWidth, newHeight)
+
+        // Копируем margins
+        (layoutParams as? LinearLayout.LayoutParams)?.let { old ->
+            lp.setMargins(old.leftMargin, old.topMargin, old.rightMargin, old.bottomMargin)
+        }
+
+        // Устанавливаем
+        layoutParams = lp
+
+        // Способ 2: Через родителя
+        parent?.updateViewLayout(this, lp)
+
+        // Способ 3: Принудительное изменение размеров
+        setMinimumWidth(if (newWidth > 0) newWidth else 0)
+        setMinimumHeight(if (newHeight > 0) newHeight else 0)
+
+        // Способ 4: Перерисовка
+        requestLayout()
+        invalidate()
+
+        // Способ 5: Отложенная перерисовка
+        post {
+            requestLayout()
+            invalidate()
+
+            // Способ 6: Пересоздание View
+            parent?.let { p ->
+                val index = p.indexOfChild(this)
+                p.removeView(this)
+                p.addView(this, index, lp)
+            }
         }
     }
 
@@ -172,135 +234,91 @@ class DefaultMaterialButton @JvmOverloads constructor(
         return super.onTouchEvent(event)
     }
 
-    override fun sWidth(width: Int): DefaultMaterialButton = apply {
-        this.width = width
-        setSizeParams(this.width, this.height)
-    }
-
-    override fun sHeight(height: Int): DefaultMaterialButton = apply{
-        this.height = height
-        setSizeParams(this.width, this.height)
-    }
-
-    // Публичные методы для программной настройки
-
-    override fun sCornerRadius(radius: Float): DefaultMaterialButton = apply {
-        this.cornerRadius = radius
-        applyStyles()
-    }
-    override fun sBackgroundColor(color: Int): DefaultMaterialButton = apply {
-        this.backgroundColor = color
-        applyStyles()
-    }
-    override fun sStroke(width: Int, color: Int): DefaultMaterialButton = apply {
-        this.strokeWidth = width
-        this.strokeColor = color
-        this.buttonPadding += width
-        super.setPadding( buttonPadding, 0, buttonPadding, 0)
-        applyStyles()
-    }
-
-    override fun sGradient(startColor: Int, endColor: Int): DefaultMaterialButton = apply {
-        this.gradientStartColor = startColor
-        this.gradientEndColor = endColor
-    }
-
-    override fun sPaddings(padding: Int): DefaultMaterialButton = apply{
-        this.buttonPadding = padding + strokeWidth
-        super.setPadding( buttonPadding, 0, buttonPadding, 0)
-        applyStyles()
-    }
-    override fun sIcon(_iconRes: Int, _iconSize: Int, _iconTint: Int): DefaultMaterialButton = apply {
-        setIcon(_iconRes, _iconSize, _iconTint)
-
-    }
-    override fun sIconGravity(position: ButtonIcon.IconPosition): DefaultMaterialButton = apply {
-        this.iconPosition = position
-        applyStyles()
-    }
-    override fun sText(text: String?, size: Int?, color: Int?, tf: Typeface?): DefaultMaterialButton = apply {
-        this.text = text
-        super.setText(this.text)
-        if(size != null) setTextSize(size.toFloat())
-        if(color != null) {
-            setTextColor(
-                ColorStateList.valueOf(
-                    if (color.toString().startsWith("0x") || color > 0xFFFFFF) color
-                    else ContextCompat.getColor(context, color)
-                )
-            )
-        }
-        if(typeface != null)this.typeface = typeface
-        applyStyles()
-    }
-//    override fun sTextColor(color: Int): DefaultMaterialButton = apply {
-//        setTextColor(ColorStateList.valueOf(ContextCompat.getColor(context, color)))
-//        applyStyles()
-//    }
-//    override fun sTextSize(size: Int): DefaultMaterialButton = apply {
-//        setTextSize(size.toFloat())
-//        applyStyles()
-//    }
-//    override fun sTypeface(typeface: Typeface): DefaultMaterialButton = apply {
-//        this.typeface = typeface
-//    }
-
     fun setSizeParams(width: Int, height: Int){
-        Log.d("Builder", "setSizeParams called with width=$width, height=$height")
+        val lp = layoutParams
 
-        val valueWidth = when {
-            width == LinearLayout.LayoutParams.MATCH_PARENT -> {
-                Log.d("Builder", "width is MATCH_PARENT")
-                LinearLayout.LayoutParams.MATCH_PARENT
+        if (lp == null) {
+            // Создаем новые параметры
+            val newLp = LinearLayout.LayoutParams(
+                convertSize(width),
+                convertSize(height)
+            )
+            layoutParams = newLp
+        } else {
+            // Обновляем существующие
+            var needsUpdate = false
+
+            val newWidth = convertSize(width)
+            val newHeight = convertSize(height)
+
+            if (lp.width != newWidth) {
+                lp.width = newWidth
+                needsUpdate = true
             }
-            width == LinearLayout.LayoutParams.WRAP_CONTENT -> {
-                Log.d("Builder", "width is WRAP_CONTENT")
-                LinearLayout.LayoutParams.WRAP_CONTENT
+
+            if (lp.height != newHeight) {
+                lp.height = newHeight
+                needsUpdate = true
             }
-            width > 0 -> {
-                val px = dpToPx(width)
-                Log.d("Builder", "width = $width dp -> $px px")
-                px
-            }
-            else -> {
-                Log.d("Builder", "width default to WRAP_CONTENT")
-                LinearLayout.LayoutParams.WRAP_CONTENT
+
+            if (needsUpdate) {
+                layoutParams = lp
             }
         }
-
-        val valueHeight = when {
-            height == LinearLayout.LayoutParams.MATCH_PARENT -> {
-                Log.d("Builder", "height is MATCH_PARENT")
-                LinearLayout.LayoutParams.MATCH_PARENT
-            }
-            height == LinearLayout.LayoutParams.WRAP_CONTENT -> {
-                Log.d("Builder", "height is WRAP_CONTENT")
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            }
-            height > 0 -> {
-                val px = dpToPx(height)
-                Log.d("Builder", "height = $height dp -> $px px")
-                px
-            }
-            else -> {
-                Log.d("Builder", "height default to WRAP_CONTENT")
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            }
+        (parent as? ViewGroup)?.let { parentView ->
+            parentView.updateViewLayout(this, layoutParams)
+            parentView.requestLayout()
+            parentView.invalidate()
         }
 
-        val layoutParams = LinearLayout.LayoutParams(valueWidth, valueHeight).apply {
-            setMargins(0,0,0,0)
+        // Принудительно запрашиваем перерисовку
+        post {
+            requestLayout()
+            invalidate()
         }
-        this.layoutParams = layoutParams
-
-        Log.d("Builder", "Final LayoutParams set to: ${layoutParams.width} x ${layoutParams.height}")
     }
-    fun setIcon(_icon: Int, _iconSize: Int, _iconTint: Int, _position: ButtonIcon.IconPosition = this.iconPosition) {
-        this.iconDrawable = ContextCompat.getDrawable(context, _icon)
-        this.iconSize = dpToPx(_iconSize)
-        this.iconTint = ColorStateList.valueOf(ContextCompat.getColor(context, _iconTint))
-        this.iconPosition = _position
-        applyStyles()
+    private fun convertSize(size: Int): Int {
+        return when (size) {
+            LinearLayout.LayoutParams.MATCH_PARENT ->  LinearLayout.LayoutParams.MATCH_PARENT
+            LinearLayout.LayoutParams.WRAP_CONTENT ->  LinearLayout.LayoutParams.WRAP_CONTENT
+            else -> {
+                if (size > 0) dpToPx(size) else  LinearLayout.LayoutParams.WRAP_CONTENT
+            }
+        }
+    }
+    fun setIcon(_icon: Int?, _iconSize: Int, _iconTint: Int, _position: ButtonIcon.IconPosition = buttonConfig.iconGravity) {
+        if(_icon != null){
+            buttonConfig.apply {
+                _icon.let {
+                    iconRes = it
+                    iconSize = dpToPx(_iconSize)
+                    iconTint = _iconTint
+                    iconGravity = _position
+                    applyStyles(this)
+                }
+            }
+
+        }
+    }
+
+    fun setTextParams(_text: String?, size: Int?, color: Int?, tf: Typeface?){
+        if(text != null) {
+            buttonConfig.apply {
+                text = _text
+                super.setText(text)
+                if (size != null) setTextSize(size.toFloat())
+                if (color != null) {
+                    setTextColor(
+                        ColorStateList.valueOf(
+                            if (color.toString().startsWith("0x") || color > 0xFFFFFF) color
+                            else ContextCompat.getColor(context, color)
+                        )
+                    )
+                }
+                if (tf != null) textTypeface = tf
+                applyStyles(this)
+            }
+        }
     }
 
     override fun setTextColor(colorStateList: ColorStateList) {

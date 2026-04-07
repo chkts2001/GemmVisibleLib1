@@ -33,36 +33,44 @@ class MainActivity : AppCompatActivity() {
             )
             insets
         }
+//
+//        val button = DefaultButtonBuilder(this)
+//            .sWidth(LinearLayout.LayoutParams.MATCH_PARENT)
+//            .sHeight(60)
+//            .sBackgroundColor(android.R.color.transparent)
+//            .sText("test click", 20, android.R.color.holo_blue_dark, Typeface.DEFAULT_BOLD)
+//            .sCornerRadius(15f)
+//            .sStroke(15, android.R.color.holo_blue_dark)
+//            .sIcon(com.gemminiii.library.R.drawable.ic_update_vector, 35, android.R.color.holo_blue_dark)
+//            .sIconGravity(ButtonIcon.IconPosition.START)
+//            .build()
+//        container.addView(button)
 
-        val button = DefaultButtonBuilder(this)
-            .sWidth(LinearLayout.LayoutParams.MATCH_PARENT)
-            .sHeight(60)
-            .sBackgroundColor(android.R.color.white)
-            .sText("test click", 20, android.R.color.holo_blue_dark, Typeface.DEFAULT_BOLD)
-            .sCornerRadius(10f)
-            .sStroke(15, android.R.color.holo_blue_dark)
-            .sIcon(com.gemminiii.library.R.drawable.ic_update_vector, 35, android.R.color.holo_blue_dark)
-            .sIconGravity(ButtonIcon.IconPosition.START)
-            .build()
-        container.addView(button)
-
-//        testBtn = findViewById(R.id.test_btn)
-//        testBtn.sCornerRadius(10f)
-//        testBtn.sBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent))
-//        testBtn.sPaddings(6)
-//        testBtn.sStroke(10,R.color.black)
-//        testBtn.sIcon(
-//            com.gemminiii.library.R.drawable.ic_update_vector,
-//            40,
-//            android.R.color.holo_red_dark)
-//        testBtn.sIconGravity(ButtonIcon.IconPosition.END)
-//        testBtn.sText("tested click", 20, android.R.color.holo_red_dark)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
+        testBtn = findViewById(R.id.test_btn)
+        DefaultButtonBuilder(this)
+            .sWidth(300)
+            .sHeight(300)
+            .sBackgroundColor(android.R.color.transparent)
+//            .sText("test click", 20, android.R.color.holo_blue_dark, Typeface.DEFAULT_BOLD)
+//            .sCornerRadius(15f)
+            .sStroke(3, android.R.color.holo_blue_dark)
+            .applyTo(testBtn)
+//            .sIcon(com.gemminiii.library.R.drawable.ic_update_vector, 35, android.R.color.holo_blue_dark)
+//            .sIconGravity(ButtonIcon.IconPosition.START)
+//        testBtn.updateConfig {
+//            width = 150
+//            height = 150
+//            backgroundColor = android.R.color.transparent
+//            strokeWidth = 3
+//            strokeColor = android.R.color.holo_red_dark
 //        }
-        button.setOnClickListener {
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        testBtn.setOnClickListener {
             Toast.makeText(this, "кнопка работает", Toast.LENGTH_SHORT).show()
         }
     }

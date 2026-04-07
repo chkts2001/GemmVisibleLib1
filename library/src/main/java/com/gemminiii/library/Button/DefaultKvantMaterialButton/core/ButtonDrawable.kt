@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable
 
 interface ButtonDrawable {
     fun createBackground(
-        cornerRadius: Float,
-        backgroundColor: Int,
-        strokeWidth: Int,
-        strokeColor: Int
+        cornerRadius: Float?,
+        backgroundColor: Int?,
+        strokeWidth: Int?,
+        strokeColor: Int?
     ): Drawable
 }
