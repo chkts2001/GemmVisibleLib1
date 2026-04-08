@@ -3,6 +3,7 @@ package com.gemminiii.gemmvl1
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.builder.DefaultButtonBuilder
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.factory.ButtonFactory
 
 class MainActivity : AppCompatActivity() {
     lateinit var testBtn: DefaultMaterialButton
@@ -47,14 +49,26 @@ class MainActivity : AppCompatActivity() {
 //        container.addView(button)
 
         testBtn = findViewById(R.id.test_btn)
+        val factoryBuilder = ButtonFactory.getInstance().blackDefaultButton(this, null, com.gemminiii.library.R.drawable.ic_update_vector)
+        val factoryConfig = factoryBuilder.getCurrentConfig()
+        //factoryBuilder.applyTo(testBtn)
+        val btn = factoryBuilder.build()
+        container.addView(btn)
+        Log.d("FactoryDebug", "------------------------------------------------------------")
         DefaultButtonBuilder(this)
-            .sWidth(300)
-            .sHeight(300)
-            .sBackgroundColor(android.R.color.transparent)
-//            .sText("test click", 20, android.R.color.holo_blue_dark, Typeface.DEFAULT_BOLD)
-//            .sCornerRadius(15f)
-            .sStroke(3, android.R.color.holo_blue_dark)
+            .setCurrentConfig(factoryConfig)
+            .sIcon(null)
+            .sText("text")
+            .sBackgroundColor(android.R.color.holo_blue_dark)
             .applyTo(testBtn)
+//        DefaultButtonBuilder(this)
+//            .sWidth(300)
+//            .sHeight(300)
+//            .sBackgroundColor(android.R.color.transparent)
+////            .sText("test click", 20, android.R.color.holo_blue_dark, Typeface.DEFAULT_BOLD)
+////            .sCornerRadius(15f)
+//            .sStroke(3, android.R.color.holo_blue_dark)
+//            .applyTo(testBtn)
 //            .sIcon(com.gemminiii.library.R.drawable.ic_update_vector, 35, android.R.color.holo_blue_dark)
 //            .sIconGravity(ButtonIcon.IconPosition.START)
 //        testBtn.updateConfig {

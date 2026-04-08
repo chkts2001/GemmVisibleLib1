@@ -1,7 +1,6 @@
 package com.gemminiii.library.Button.DefaultKvantMaterialButton.config
 
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.widget.LinearLayout
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 
@@ -9,7 +8,7 @@ data class ButtonConfig(
     var width: Int = LinearLayout.LayoutParams.MATCH_PARENT,
     var height: Int = 40,
     var cornerRadius: Float = 30f,
-    var backgroundColor: Int? = null,
+    var backgroundColor: Int? = android.R.color.black,
     var padding: Int = 16,
     var strokeWidth: Int = 0,
     var strokeColor: Int = 0,
@@ -20,7 +19,9 @@ data class ButtonConfig(
     var text: String? = null,
     var textSize: Int = 14,
     var textColor: Int = android.R.color.black,
-    var textTypeface: Typeface? = null
+    var textTypeface: Typeface? = null,
+    var insetTop: Int = 0,
+    var insetBottom: Int = 0
 ) {
     fun copyWith(block: ButtonConfig.() -> Unit): ButtonConfig{
         val result = this.copy()

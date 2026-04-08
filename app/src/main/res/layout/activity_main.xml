@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:layout_weight="1" />
+
     <com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
         android:id="@+id/test_btn"
         android:layout_width="match_parent"

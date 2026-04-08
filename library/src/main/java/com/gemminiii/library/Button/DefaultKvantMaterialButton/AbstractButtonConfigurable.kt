@@ -1,6 +1,7 @@
 package com.gemminiii.library.Button.DefaultKvantMaterialButton
 
 import android.graphics.Typeface
+import android.util.Log
 import android.widget.LinearLayout
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
@@ -12,12 +13,12 @@ interface ButtonConfigurable<T>{
     fun sBackgroundColor(color: Int): T
     fun sPaddings(padding: Int): T
     fun sStroke(width: Int, color: Int): T
-    fun sIcon(iconRes: Int, iconSize: Int, iconTint: Int = android.R.color.white): T
+    fun sIcon(iconRes: Int?, iconSize: Int = 25, iconTint: Int = android.R.color.white): T
     fun sIconGravity(position: ButtonIcon.IconPosition = ButtonIcon.IconPosition.CENTER): T
     fun sText(text: String? = null, size: Int? = 14, color: Int? = android.R.color.black, tf: Typeface? = null): T
 }
 abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: ButtonConfigurable<T>{
-    protected var config = ButtonConfig()
+    var config = ButtonConfig()
 
     override fun sWidth(width: Int): T{
         config.width = width
@@ -50,7 +51,7 @@ abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: But
         return this as T
     }
 
-    override fun sIcon(iconRes: Int, iconSize: Int, iconTint: Int): T {
+    override fun sIcon(iconRes: Int?, iconSize: Int, iconTint: Int): T {
         config.iconRes = iconRes
         config.iconSize = iconSize
         config.iconTint = iconTint
@@ -71,6 +72,12 @@ abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: But
     }
     protected fun applyToButton(button: DefaultMaterialButton) {
         button.applyStyles(config)
+    }
+
+    fun getCurrentConfig(): ButtonConfig = config.copy()
+    fun setCurrentConfig(newConfig: ButtonConfig): T {
+        this.config = newConfig.copy()  // copy() чтобы не было ссылок на один объект
+        return this as T
     }
 }
 

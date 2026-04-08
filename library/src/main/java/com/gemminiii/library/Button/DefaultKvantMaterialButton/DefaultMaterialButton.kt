@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.gemminiii.library.Button.DefaultKvantMaterialButton.builder.DefaultButtonBuilder
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonDrawable
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
@@ -107,19 +106,61 @@ class DefaultMaterialButton @JvmOverloads constructor(
     }
 
     fun applyStyles(config: ButtonConfig) {
+//        Log.d("SizeDebug", "applyStyles CALLED")
+//        try {
+//            config.apply {
+//                Log.d("SizeDebug", "width in config: $width, height in config: $height")
+//                Log.d("ConfigDebug", "${config.text}")
+//                // Применяем фон
+//                backgroundTintList = null
+//                super.background = buttonDrawable.createBackground(
+//                    cornerRadius,
+//                    ContextCompat.getColor(context, backgroundColor!!),
+//                strokeWidth,
+//                ContextCompat.getColor(context, strokeColor)
+//                )
+//                val pxPadding = padding
+//                //super.setPadding( pxPadding, 0, pxPadding, 0)
+//                super.setPadding(pxPadding, 0, pxPadding, 0)
+//                text?.let {
+//                    buttonText.applyTextStyle(this@DefaultMaterialButton,
+//                        text,
+//                        ColorStateList.valueOf(ContextCompat.getColor(context, textColor)),
+//                        textSize,
+//                        textTypeface)
+//                }
+//                Log.d("_lib_", "$iconSize")
+//                iconRes?.let {
+//                    buttonIcon.applyIcon(
+//                        this@DefaultMaterialButton,
+//                        ContextCompat.getDrawable(context, it),
+//                        dpToPx(iconSize),
+//                        ColorStateList.valueOf(ContextCompat.getColor(context, iconTint)),
+//                        iconGravity
+//                    )
+//                }
+//                setSizeParams(width, height)
+//                forceRedraw()
+//            }
+//        }catch(e: Exception){
+//            Log.e("SizeDebug", "Exception in applyStyles: ${e.message}")
+//            e.printStackTrace()
+//        }
+        Log.d("FactoryDebug", "=== applyStyles START ===")
+        Log.d("FactoryDebug", "Config text: ${config.text}")
+        Log.d("FactoryDebug", "Config width: ${config.width}, height: ${config.height}")
+        Log.d("FactoryDebug", "Button text BEFORE apply: ${this.text}")
+
         try {
             config.apply {
+                this@DefaultMaterialButton.insetTop = this.insetTop
+                this@DefaultMaterialButton.insetBottom = this.insetBottom
                 // Применяем фон
                 backgroundTintList = null
-                super.background = buttonDrawable.createBackground(
-                    cornerRadius,
-                    ContextCompat.getColor(context, backgroundColor!!),
-                strokeWidth,
-                ContextCompat.getColor(context, strokeColor)
-                )
-                val pxPadding = padding
-                //super.setPadding( pxPadding, 0, pxPadding, 0)
-                super.setPadding(pxPadding, 0, pxPadding, 0)
+                val bgColor = ContextCompat.getColor(context, backgroundColor!!)
+                setBackgroundColor(bgColor)
+
+                // Применяем текст
                 text?.let {
                     buttonText.applyTextStyle(this@DefaultMaterialButton,
                         text,
@@ -127,7 +168,8 @@ class DefaultMaterialButton @JvmOverloads constructor(
                         textSize,
                         textTypeface)
                 }
-                Log.d("_lib_", "$iconSize")
+
+                // Применяем иконку
                 iconRes?.let {
                     buttonIcon.applyIcon(
                         this@DefaultMaterialButton,
@@ -137,12 +179,58 @@ class DefaultMaterialButton @JvmOverloads constructor(
                         iconGravity
                     )
                 }
-                setSizeParams(width, height)
-//                requestLayout()
-//                invalidate()
+
+                if(text == null){
+                    width = 40
+                }
+
+                // Применяем размеры
+                val lp = layoutParams
+                if (lp != null) {
+                    Log.d("FactoryDebug", "Old size: ${lp.width}x${lp.height}")
+                    lp.width = if (width == ViewGroup.LayoutParams.MATCH_PARENT) {
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    } else {
+                        dpToPx(width)
+                    }
+                    lp.height = if (height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    } else {
+                        dpToPx(height)
+                    }
+                    layoutParams = lp
+                    Log.d("FactoryDebug", "New size: ${lp.width}x${lp.height}")
+                }
+
+                requestLayout()
+                invalidate()
             }
-        }catch(e: Exception){
-            e.printStackTrace()
+        } catch(e: Exception) {
+            Log.e("FactoryDebug", "Error: ${e.message}", e)
+        }
+
+        Log.d("FactoryDebug", "Button text AFTER apply: ${this.text}")
+        Log.d("FactoryDebug", "=== applyStyles END ===")
+    }
+
+    private fun forceRedraw() {
+        // Способ 1: requestLayout + invalidate
+        requestLayout()
+        invalidate()
+
+        // Способ 2: обновляем LayoutParams у родителя
+        (parent as? ViewGroup)?.let { parentView ->
+            // ПРАВИЛЬНО: передаём this (кнопку), а не parentView
+            parentView.updateViewLayout(this, layoutParams)
+        }
+
+        // Способ 3: пост-обработка для гарантии
+        post {
+            requestLayout()
+            invalidate()
+            (parent as? ViewGroup)?.let {
+                it.invalidate()
+            }
         }
     }
 
@@ -264,17 +352,6 @@ class DefaultMaterialButton @JvmOverloads constructor(
             if (needsUpdate) {
                 layoutParams = lp
             }
-        }
-        (parent as? ViewGroup)?.let { parentView ->
-            parentView.updateViewLayout(this, layoutParams)
-            parentView.requestLayout()
-            parentView.invalidate()
-        }
-
-        // Принудительно запрашиваем перерисовку
-        post {
-            requestLayout()
-            invalidate()
         }
     }
     private fun convertSize(size: Int): Int {

@@ -1,33 +1,48 @@
 package com.gemminiii.library.Button.DefaultKvantMaterialButton.factory
 
 import android.content.Context
+import android.graphics.Typeface
+import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.builder.DefaultButtonBuilder
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 import com.gemminiii.library.R
 
-class ButtonFactory {
-    fun createPrimaryButton(context: Context, text: String): DefaultMaterialButton {
-        return DefaultButtonBuilder(context)
-            .sText(text, 16, R.color.white)
-            .sCornerRadius(12f)
-            .build()
+class ButtonFactory private constructor() {
+
+    private var currentBuilder: DefaultButtonBuilder? = null
+
+    fun blackDefaultButton(context: Context, text: String? = null, icon: Int? = null): DefaultButtonBuilder {
+        // СОЗДАЁМ НОВЫЙ БИЛДЕР КАЖДЫЙ РАЗ
+        val builder = DefaultButtonBuilder(context)
+            .sWidth(if(text == null) 40 else ViewGroup.LayoutParams.MATCH_PARENT)
+            .sHeight(40)
+            .sBackgroundColor(android.R.color.black)
+            .sText(text, 14, android.R.color.white, Typeface.DEFAULT_BOLD)
+            .sIcon(icon, 25, android.R.color.white)
+            .sIconGravity(if(text == null) ButtonIcon.IconPosition.CENTER else ButtonIcon.IconPosition.END)
+
+        currentBuilder = builder
+        return builder
     }
 
-    fun createSecondaryButton(context: Context, text: String): DefaultMaterialButton {
-        return DefaultButtonBuilder(context)
-            .sText(text, 14, R.color.black)
-            .sBackgroundColor(ContextCompat.getColor(context, R.color.white))
-            .sCornerRadius(8f)
-            .sStroke(2, ContextCompat.getColor(context, R.color.black))
-            .build()
+    fun applyTo(button: DefaultMaterialButton) {
+        currentBuilder?.applyTo(button)
+        currentBuilder = null
     }
 
-    fun createIconButton(context: Context, iconRes: Int, iconSize: Int, iconTint: Int ): DefaultMaterialButton {
-        return DefaultButtonBuilder(context)
-            .sIcon(iconRes, iconSize, iconTint)
-            .sCornerRadius(24f)
-            .sBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-            .build()
+    companion object {
+        @Volatile
+        private var instance: ButtonFactory? = null
+
+        fun getInstance(): ButtonFactory {
+            return instance ?: synchronized(this) {
+                instance ?: ButtonFactory().also { instance = it }
+            }
+        }
     }
 }
