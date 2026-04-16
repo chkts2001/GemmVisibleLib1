@@ -50,40 +50,40 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private fun initAttributes(attrs: AttributeSet?) {
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.DefaultMaterialButton).apply {
+            context.obtainStyledAttributes(it, R.styleable.DefaultListParam).apply {
                 try {
                     buttonConfig.apply {
                         // Основные параметры
                         cornerRadius = getDimension(
-                            R.styleable.DefaultMaterialButton_buttonCornerRadius,
+                            R.styleable.DefaultListParam_sCornerRadius,
                             resources.getDimension(R.dimen.default_corner_radius)
                         )
                         backgroundColor = getColor(
-                            R.styleable.DefaultMaterialButton_buttonBackgroundColor,
+                            R.styleable.DefaultListParam_sBackgroundColor,
                             Color.TRANSPARENT
                         )
                         strokeWidth = getDimensionPixelSize(
-                            R.styleable.DefaultMaterialButton_buttonStrokeWidth,
+                            R.styleable.DefaultListParam_sStrokeWidth,
                             0
                         )
                         strokeColor = getColor(
-                            R.styleable.DefaultMaterialButton_buttonStrokeColor,
+                            R.styleable.DefaultListParam_sStrokeColor,
                             Color.TRANSPARENT
                         )
                         padding = getDimensionPixelSize(
-                            R.styleable.DefaultMaterialButton_buttonPadding,
+                            R.styleable.DefaultListParam_sPadding,
                             6
                         )
 
                         // Иконка
-                        iconRes = getResourceId(R.styleable.DefaultMaterialButton_buttonIcon, 0)
+                        iconRes = getResourceId(R.styleable.DefaultListParam_sIcon, 0)
                         buttonConfig.iconSize = getDimensionPixelSize(
-                            R.styleable.DefaultMaterialButton_buttonIconSize,
+                            R.styleable.DefaultListParam_sIconSize,
                             25
                         )
-                        iconTint = getResourceId(R.styleable.DefaultMaterialButton_buttonIconTint, android.R.color.white)
+                        iconTint = getResourceId(R.styleable.DefaultListParam_sIconTint, android.R.color.white)
                         iconGravity =
-                            when (getInt(R.styleable.DefaultMaterialButton_buttonIconGravity, 2)) {
+                            when (getInt(R.styleable.DefaultListParam_sIconGravity, 2)) {
                                 0 -> ButtonIcon.IconPosition.START
                                 1 -> ButtonIcon.IconPosition.END
                                 2 -> ButtonIcon.IconPosition.CENTER
@@ -91,8 +91,8 @@ class DefaultMaterialButton @JvmOverloads constructor(
                             }
 
                         // Текст
-                        textColor = getResourceId(R.styleable.DefaultMaterialButton_buttonTextColor, android.R.color.black)
-                        textSize = (getDimensionPixelSize(R.styleable.DefaultMaterialButton_buttonTextSize, 12) / resources.displayMetrics.scaledDensity).toInt()
+                        textColor = getResourceId(R.styleable.DefaultListParam_sTextColor, android.R.color.black)
+                        textSize = (getDimensionPixelSize(R.styleable.DefaultListParam_sTextSize, 12) / resources.displayMetrics.scaledDensity).toInt()
                         applyStyles(buttonConfig)
 
                         //val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)

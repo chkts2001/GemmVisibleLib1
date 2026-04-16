@@ -1,16 +1,14 @@
-package com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation
+package com.gemminiii.library.Containers.DefaultLinearContainer.implemenatation
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.Log
-import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonDrawable
+import com.gemminiii.library.Containers.DefaultLinearContainer.core.DefLinContainerDrawable
 
-class ButtonDrawableImpl(private val antiAlias: Boolean = true) :  ButtonDrawable{
+class DefLinContainerDrawableImpl(private val antiAlias: Boolean = true): DefLinContainerDrawable {
     override fun createBackground(
         cornerRadius: Float?,
         backgroundColor: Int?,

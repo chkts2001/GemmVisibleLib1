@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="DefaultMaterialButton">
-        <attr name="buttonCornerRadius" format="dimension" />
-        <attr name="buttonBackgroundColor" format="color|reference" />
-        <attr name="buttonGradientStart" format="color" />
-        <attr name="buttonGradientEnd" format="color" />
-        <attr name="buttonStrokeWidth" format="dimension" />
-        <attr name="buttonStrokeColor" format="color" />
-        <attr name="buttonPadding" format="dimension" />
+    <declare-styleable name="DefaultListParam">
+        <attr name="sCornerRadius" format="dimension" />
+        <attr name="sBackgroundColor" format="color|reference" />
+        <attr name="sGradientStart" format="color" />
+        <attr name="sGradientEnd" format="color" />
+        <attr name="sStrokeWidth" format="dimension" />
+        <attr name="sStrokeColor" format="color" />
+        <attr name="sPadding" format="dimension" />
 
-        <attr name="buttonIcon" format="reference" />
-        <attr name="buttonIconSize" format="dimension"/>
-        <attr name="buttonIconTint" format="color|reference"/>
-        <attr name="buttonIconGravity" format="enum">
+        <attr name="sIcon" format="reference" />
+        <attr name="sIconSize" format="dimension"/>
+        <attr name="sIconTint" format="color|reference"/>
+        <attr name="sIconGravity" format="enum">
             <enum name="start" value="0" />
             <enum name="end" value="1" />
             <enum name="center" value="2" />
         </attr>
 
-        <attr name="buttonIconPadding" format="dimension" />
-        <attr name="buttonTextColor" format="color|reference" />
-        <attr name="buttonTextSize" format="dimension" />
-        <attr name="buttonTypeface" format="string" />
+        <attr name="sIconPadding" format="dimension" />
+        <attr name="sTextColor" format="color|reference" />
+        <attr name="sTextSize" format="dimension" />
+        <attr name="sTypeface" format="string" />
     </declare-styleable>
 </resources>
