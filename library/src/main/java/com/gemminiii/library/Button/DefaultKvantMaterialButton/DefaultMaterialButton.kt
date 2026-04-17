@@ -20,6 +20,9 @@ import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.Bu
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.ButtonStateImpl
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.IconButtonImpl
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.TextStyleImpl
+import com.gemminiii.library.Common.commonAttrArray
+import com.gemminiii.library.Common.readCommonAttributes
+import com.gemminiii.library.Common.toCommonAttr
 import com.gemminiii.library.R
 import com.google.android.material.button.MaterialButton
 
@@ -50,38 +53,29 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private fun initAttributes(attrs: AttributeSet?) {
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.DefaultListParam).apply {
-                try {
-                    buttonConfig.apply {
+                buttonConfig.apply {
+                    context.obtainStyledAttributes(attrs, commonAttrArray).use { typedArray ->
+                        val commonAttr = context.readCommonAttributes(attrs)
                         // Основные параметры
-                        cornerRadius = getDimension(
-                            R.styleable.DefaultListParam_sCornerRadius,
-                            resources.getDimension(R.dimen.default_corner_radius)
-                        )
-                        backgroundColor = getColor(
-                            R.styleable.DefaultListParam_sBackgroundColor,
-                            Color.TRANSPARENT
-                        )
-                        strokeWidth = getDimensionPixelSize(
-                            R.styleable.DefaultListParam_sStrokeWidth,
-                            0
-                        )
-                        strokeColor = getColor(
-                            R.styleable.DefaultListParam_sStrokeColor,
-                            Color.TRANSPARENT
-                        )
-                        padding = getDimensionPixelSize(
-                            R.styleable.DefaultListParam_sPadding,
-                            6
-                        )
-
+                        cornerRadius = commonAttr.cornersRadius
+                        backgroundColor = commonAttr.backgroundColor
+                        strokeWidth = commonAttr.strokeWidth
+                        strokeColor = commonAttr.strokeColor
+                        padding = commonAttr.padding
+                    }
+                    context.obtainStyledAttributes(it, R.styleable.DefaultListParam).apply {
+                        try {
+                        // Основные параметры
                         // Иконка
                         iconRes = getResourceId(R.styleable.DefaultListParam_sIcon, 0)
                         buttonConfig.iconSize = getDimensionPixelSize(
                             R.styleable.DefaultListParam_sIconSize,
                             25
                         )
-                        iconTint = getResourceId(R.styleable.DefaultListParam_sIconTint, android.R.color.white)
+                        iconTint = getResourceId(
+                            R.styleable.DefaultListParam_sIconTint,
+                            android.R.color.white
+                        )
                         iconGravity =
                             when (getInt(R.styleable.DefaultListParam_sIconGravity, 2)) {
                                 0 -> ButtonIcon.IconPosition.START
@@ -91,15 +85,21 @@ class DefaultMaterialButton @JvmOverloads constructor(
                             }
 
                         // Текст
-                        textColor = getResourceId(R.styleable.DefaultListParam_sTextColor, android.R.color.black)
-                        textSize = (getDimensionPixelSize(R.styleable.DefaultListParam_sTextSize, 12) / resources.displayMetrics.scaledDensity).toInt()
+                        textColor = getResourceId(
+                            R.styleable.DefaultListParam_sTextColor,
+                            android.R.color.black
+                        )
+                        textSize = (getDimensionPixelSize(
+                            R.styleable.DefaultListParam_sTextSize,
+                            12
+                        ) / resources.displayMetrics.scaledDensity).toInt()
                         applyStyles(buttonConfig)
 
                         //val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)
                         //textTypeface = getFont(R.styleable.DefaultMaterialButton_buttonTypeface)
+                    }finally {
+                        recycle()
                     }
-                } finally {
-                    recycle()
                 }
             }
         }

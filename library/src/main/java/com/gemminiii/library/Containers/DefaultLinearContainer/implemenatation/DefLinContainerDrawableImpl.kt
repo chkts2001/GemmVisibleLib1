@@ -16,26 +16,17 @@ class DefLinContainerDrawableImpl(private val antiAlias: Boolean = true): DefLin
         strokeColor: Int?,
     ): Drawable {
         val mainDrawable = GradientDrawable().apply {
-            if(cornerRadius != null) this.cornerRadius = cornerRadius
-            if(backgroundColor != null) setColor(backgroundColor)
-            if(strokeWidth != null && strokeColor != null){
+            if (cornerRadius != null) this.cornerRadius = cornerRadius
+            if (backgroundColor != null) setColor(backgroundColor)
+            if (strokeWidth != null && strokeColor != null && strokeWidth > 0) {
                 Log.d("Builder", "s_width: ${strokeWidth} s_color: ${strokeColor}")
                 setStroke(strokeWidth, strokeColor)
             }
         }
-        try {
-            val colorField = GradientDrawable::class.java.getDeclaredField("mSolidColors")
-            colorField.isAccessible = true
-            Log.d("Builder", "Colors: ${colorField.get(mainDrawable)}")
-        } catch (e: Exception) {
-            // Игнорируем
-        }
 
-        val rippleColor = ColorStateList.valueOf(Color.argb(50, 0, 0, 0))
+        // Создаем ripple эффект
+        val rippleColor = ColorStateList.valueOf(Color.argb(60, 0, 0, 0)) // Увеличил прозрачность
         val rippleDrawable = RippleDrawable(rippleColor, mainDrawable, null)
-
-        // Проверяем, что ripple не перекрывает фон
-        rippleDrawable.setColor(ColorStateList.valueOf(Color.TRANSPARENT))
 
         return rippleDrawable
     }

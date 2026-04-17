@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val factoryConfig = factoryBuilder.getCurrentConfig()
         //factoryBuilder.applyTo(testBtn)
         val btn = factoryBuilder.build()
-        container.addView(btn)
+        //container.addView(btn)
         Log.d("FactoryDebug", "------------------------------------------------------------")
         DefaultButtonBuilder(this)
             .setCurrentConfig(factoryConfig)

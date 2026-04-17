@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:layout_weight="1" />
-
+    <com.gemminiii.library.Containers.DefaultLinearContainer.DefLinContainer
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
     <com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
         android:id="@+id/test_btn"
         android:layout_width="match_parent"
