@@ -9,4 +9,12 @@ interface DefTvDrawable {
         strokeWidth: Int?,
         strokeColor: Int?
     ): Drawable
+
+    enum class ButtonVisibilityMode{
+        NONE, LEFT, RIGHT, ALL
+    }
+
+    enum class BottomElementMode {
+        NONE, TEXT, PROGRESS
+    }
 }

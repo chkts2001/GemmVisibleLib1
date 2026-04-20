@@ -12,9 +12,17 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:layout_weight="1" />
-    <com.gemminiii.library.Containers.DefaultLinearContainer.DefLinContainer
+    <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="wrap_content"
+        app:sCornersRadius="5dp"
+        app:sCommonCornerRadiusFlag="true"
+        app:sCommonColorFlag="true"
+        app:sStrokeWidth="2dp"
+        app:sStrokeColor="@color/black"
+        app:sBackgroundColorAllButton="@color/black"
+        app:sLeftIcon="@drawable/ic_update_vector"
+        app:sRightIcon="@drawable/ic_update_vector"/>
     <com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
         android:id="@+id/test_btn"
         android:layout_width="match_parent"

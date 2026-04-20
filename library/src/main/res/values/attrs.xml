@@ -2,36 +2,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <attr name="sCornerRadius" format="dimension" />
     <attr name="sBackgroundColor" format="color|reference" />
-    <attr name="sGradientStart" format="color" />
+    <attr name="sGradientStart" format="color"/>
     <attr name="sGradientEnd" format="color" />
     <attr name="sStrokeWidth" format="dimension" />
     <attr name="sStrokeColor" format="color" />
     <attr name="sPadding" format="dimension" />
+    <attr name="sIcon" format="reference" />
+    <attr name="sIconSize" format="dimension"/>
+    <attr name="sIconTint" format="color|reference"/>
+    <attr name="sIconGravity" format="enum">
+        <enum name="start" value="0" />
+        <enum name="end" value="1" />
+        <enum name="center" value="2" />
+    </attr>
 
-    <declare-styleable name="DefaultListParam">
-        <attr name="sIcon" format="reference" />
-        <attr name="sIconSize" format="dimension"/>
-        <attr name="sIconTint" format="color|reference"/>
-        <attr name="sIconGravity" format="enum">
-            <enum name="start" value="0" />
-            <enum name="end" value="1" />
-            <enum name="center" value="2" />
-        </attr>
+    <attr name="sIconPadding" format="dimension" />
+    <attr name="sTextColor" format="color|reference" />
+    <attr name="sTextSize" format="dimension" />
+    <attr name="sTypeface" format="string" />
 
-        <attr name="sIconPadding" format="dimension" />
-        <attr name="sTextColor" format="color|reference" />
-        <attr name="sTextSize" format="dimension" />
-        <attr name="sTypeface" format="string" />
-    </declare-styleable>
+    <declare-styleable name="DefaultTextView">
+        <attr name="sCommonColorFlag" format="boolean" />
+        <attr name="sCommonCornerRadiusFlag" format="boolean" />
 
-    <declare-styleable name="DefEditTextViewParam">
+<!--        text element-->
         <attr name="sCornerRadiusTextElem" format="dimension" />
         <attr name="sBackgroundColorTextElem" format="color|reference" />
-        <attr name="sGradientStartTextElem" format="color" />
-        <attr name="sGradientEndTextElem" format="color" />
         <attr name="sStrokeWidthTextElem" format="dimension" />
         <attr name="sStrokeColorTextElem" format="color" />
         <attr name="sPaddingTextElem" format="dimension" />
+        <attr name="sTextElem" format="string" />
+        <attr name="sTextColorElem" format="color|reference" />
+        <attr name="sTextSizeElem" format="dimension" />
+        <attr name="sTypefaceElem" format="string" />
+
         <attr name="sButtonsVisibility" format="enum">
             <enum name="none" value="0" />
             <enum name="left" value="1"/>
@@ -43,27 +47,43 @@
             <enum name="text" value="1"/>
             <enum name="progress" value="2"/>
         </attr>
-        <attr name="sBottomTextColor" format="color|reference" />
-        <attr name="sBottomTextSize" format="dimension" />
-        <attr name="sBottomTypeface" format="string" />
-        <attr name="sMainTextColor" format="color|reference" />
-        <attr name="sMainTextSize" format="dimension" />
-        <attr name="sMainTypeface" format="string" />
+
+<!--        Left/Right Button element-->
+        <attr name="sCornerRadiusAllButton" format="dimension" />
+        <attr name="sBackgroundColorAllButton" format="color|reference" />
+        <attr name="sStrokeWidthAllButton" format="dimension" />
+        <attr name="sStrokeColorAllButton" format="color" />
+        <attr name="sPaddingAllButton" format="dimension" />
         <attr name="sLeftIcon" format="reference" />
-        <attr name="sLeftIconSize" format="dimension"/>
-        <attr name="sLeftIconTint" format="color|reference"/>
-        <attr name="sLeftIconGravity" format="enum">
-            <enum name="start" value="0" />
-            <enum name="end" value="1" />
-            <enum name="center" value="2" />
-        </attr>
-        <attr name="sRightIcon" format="reference" />
-        <attr name="sRightIconSize" format="dimension"/>
-        <attr name="sRightIconTint" format="color|reference"/>
-        <attr name="sRightIconGravity" format="enum">
-            <enum name="start" value="0" />
-            <enum name="end" value="1" />
-            <enum name="center" value="2" />
-        </attr>
+        <attr name="sRightIcon" format="reference"/>
+
+        <!--        Bottom element-->
+        <attr name="sCornerRadiusBottomElem" format="dimension" />
+        <attr name="sBackgroundColorBottomElem" format="color|reference" />
+        <attr name="sStrokeWidthBottomElem" format="dimension" />
+        <attr name="sStrokeColorBottomElem" format="color" />
+        <attr name="sPaddingBottomElem" format="dimension" />
+        <attr name="sTextBottomElem" format="string" />
+        <attr name="sTextColorBottomElem" format="color|reference" />
+        <attr name="sTextSizeBottomElem" format="dimension" />
+        <attr name="sTypefaceBottomElem" format="string" />
+
+        <attr name="sCornerRadius"/>
+        <attr name="sBackgroundColor"/>
+        <attr name="sGradientStart"/>
+        <attr name="sGradientEnd"/>
+        <attr name="sStrokeWidth"/>
+        <attr name="sStrokeColor"/>
+        <attr name="sPadding"/>
+        <attr name="sIcon"/>
+        <attr name="sIconSize"/>
+        <attr name="sIconTint"/>
+        <attr name="sIconGravity"/>
+
+        <attr name="sIconPadding"/>
+        <attr name="sTextColor"/>
+        <attr name="sTextSize" />
+        <attr name="sTypeface"/>
+
     </declare-styleable>
 </resources>
