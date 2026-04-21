@@ -1,15 +1,15 @@
 package com.gemminiii.library.TextView.DefaultTextView.config
 
 import android.graphics.Typeface
-import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
-import com.gemminiii.library.TextView.DefaultTextView.core.DefTvDrawable
+import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums
 
 class TextViewConfig(
     //common параметры
     var commonColorFlag: Boolean = true,
     var commonCornerRadiusFlag: Boolean = true,
-    var bottomType: DefTvDrawable.BottomElementMode = DefTvDrawable.BottomElementMode.NONE,
-    var buttonVisibilityType: DefTvDrawable.ButtonVisibilityMode = DefTvDrawable.ButtonVisibilityMode.NONE,
+    var commonColor: Int = 0,
+    var bottomType: CommonEnums.BottomElementMode = CommonEnums.BottomElementMode.NONE,
+    var buttonVisibilityType: CommonEnums.ButtonVisibilityMode = CommonEnums.ButtonVisibilityMode.NONE,
 
     //фундаментальный LinearLayout
     var cornersRadiusView: Float = 5f,
@@ -17,6 +17,7 @@ class TextViewConfig(
     var strokeWidthView: Int = 5,
     var strokeColorView: Int = android.R.color.black,
     var paddingView:Int = 0,
+    var marginView: Int = 0,
 
     //EditText, куда будем вводить ифнормацию
     var cornersRadiusTextElem: Float = 5f,
@@ -30,25 +31,23 @@ class TextViewConfig(
     var textTypefaceElem: Typeface? = null,
 
     // Левая/Правая кнопки
-    var cornersRadiusAllButton: Float = 5f,
-    var backgroundColorAllButton: Int = android.R.color.transparent,
-    var strokeWidthAllButton: Int = 5,
-    var strokeColorAllButton: Int = android.R.color.black,
-    var paddingAllButton:Int = 0,
     var iconResButtonLeft: Int? = null,
     var iconResButtonRight: Int? = null,
-    var iconSizeButtonAll: Float = 24f,
-    var iconTintButtonAll: Int = android.R.color.white,
-    var iconGravityButtonAll: ButtonIcon.IconPosition = ButtonIcon.IconPosition.CENTER,
 
-    // Нижний элемент текст/прогресс
+    // Нижний элемент drawable
     var cornersRadiusBottomElem: Float = 5f,
     var backgroundColorBottomElem: Int = android.R.color.transparent,
     var strokeWidthBottomElem: Int = 5,
     var strokeColorBottomElem: Int = android.R.color.black,
     var paddingBottomElem:Int = 0,
+
+    //Нижний элемент textView
     var textBottomElem: String? = null,
     var textSizeBottomElem: Int = 14,
     var textColorBottomElem: Int = android.R.color.black,
     var textTypefaceBottomElem: Typeface? = null,
+
+    //Нижний элемент progressBar
+    var bottomProgressTintColor: Int,
+    var bottomProgressBackground: Int
 )

@@ -1,5 +1,7 @@
 package com.gemminiii.library.Button.DefaultKvantMaterialButton
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,6 +13,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginEnd
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonDrawable
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
@@ -22,7 +25,7 @@ import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.Ic
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.implementation.TextStyleImpl
 import com.gemminiii.library.Common.commonAttrArray
 import com.gemminiii.library.Common.readCommonAttributes
-import com.gemminiii.library.Common.toCommonAttr
+//import com.gemminiii.library.Common.toCommonAttr
 import com.gemminiii.library.R
 import com.google.android.material.button.MaterialButton
 
@@ -55,6 +58,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
         attrs?.let {
                 buttonConfig.apply {
                     context.obtainStyledAttributes(attrs, commonAttrArray).use { typedArray ->
+                        Log.d("FactoryDebug","1 common")
                         val commonAttr = context.readCommonAttributes(attrs)
                         // Основные параметры
                         cornerRadius = commonAttr.cornersRadius
@@ -62,6 +66,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
                         strokeWidth = commonAttr.strokeWidth
                         strokeColor = commonAttr.strokeColor
                         padding = commonAttr.padding
+                        margin = commonAttr.margin
                     }
                     context.obtainStyledAttributes(it, R.styleable.DefaultListParam).apply {
                         try {
@@ -160,6 +165,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
                 val bgColor = ContextCompat.getColor(context, backgroundColor!!)
                 setBackgroundColor(bgColor)
 
+
                 // Применяем текст
                 text?.let {
                     buttonText.applyTextStyle(this@DefaultMaterialButton,
@@ -198,6 +204,12 @@ class DefaultMaterialButton @JvmOverloads constructor(
                     } else {
                         dpToPx(height)
                     }
+                    (lp as? ViewGroup.MarginLayoutParams)?.setMargins(
+                        dpToPx(config.margin),  // left
+                        dpToPx(config.margin),  // top
+                        dpToPx(config.margin),  // right
+                        dpToPx(config.margin)
+                    )
                     layoutParams = lp
                     Log.d("FactoryDebug", "New size: ${lp.width}x${lp.height}")
                 }
@@ -292,30 +304,40 @@ class DefaultMaterialButton @JvmOverloads constructor(
 //        }
 //    }
 
+    private var currentAnimator: Animator? = null
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
-                scaleAnimator?.cancel()
-                scaleAnimator = ObjectAnimator.ofFloat(this, "scaleX", buttonState.getPressedScale()).apply {
-                    duration = 100
-                    start()
-                }
-                ObjectAnimator.ofFloat(this, "scaleY", buttonState.getPressedScale()).apply {
-                    duration = 100
-                    start()
-                }
+                // Мгновенно устанавливаем scale
+                scaleX = buttonState.getPressedScale()
+                scaleY = buttonState.getPressedScale()
+
+                // Принудительно вызываем перерисовку
+                invalidate()
+
+                // Используем post для отложенной анимации возврата
+                postDelayed({
+                    animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(150)
+                        .withEndAction { invalidate() }
+                        .start()
+                }, 100)
+
                 alpha = buttonState.getStateAlpha()[0]
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                scaleAnimator?.cancel()
-                scaleAnimator = ObjectAnimator.ofFloat(this, "scaleX", 1f).apply {
-                    duration = 150
-                    start()
-                }
-                ObjectAnimator.ofFloat(this, "scaleY", 1f).apply {
-                    duration = 150
-                    start()
-                }
+                // Отменяем отложенную анимацию, если палец подняли раньше
+                removeCallbacks(null)
+                animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(150)
+                    .withEndAction { invalidate() }
+                    .start()
                 alpha = 1f
             }
         }

@@ -5,10 +5,11 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Common.commonAttrArray
 import com.gemminiii.library.Common.readCommonAttributes
-import com.gemminiii.library.Common.toCommonAttr
+//import com.gemminiii.library.Common.toCommonAttr
 import com.gemminiii.library.Containers.DefaultLinearContainer.config.DefLinContainerConfig
 import com.gemminiii.library.Containers.DefaultLinearContainer.core.DefLinContainerDrawable
 import com.gemminiii.library.Containers.DefaultLinearContainer.implemenatation.DefLinContainerDrawableImpl
@@ -30,6 +31,7 @@ open class DefLinContainer @JvmOverloads constructor(
     private fun initAttributes(attrs: AttributeSet?) {
         attrs?.let {
             context.obtainStyledAttributes(attrs, commonAttrArray).use { typedArray ->
+                Log.d("FactoryDebug","2 common")
                 val commonAttr = context.readCommonAttributes(attrs)
                 containerConfig.apply {
                     // Основные параметры
@@ -55,9 +57,9 @@ open class DefLinContainer @JvmOverloads constructor(
                 // Создаем фон
                 backDrawable = containerDrawable.createBackground(
                     cornersRadius,
-                    backgroundColor,
+                    ContextCompat.getColor(context, backgroundColor!!),
                     strokeWidth,
-                    strokeColor
+                    ContextCompat.getColor(context, strokeColor)
                 )
 
                 // Применяем фон

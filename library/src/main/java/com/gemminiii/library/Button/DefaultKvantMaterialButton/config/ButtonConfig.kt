@@ -10,6 +10,7 @@ data class ButtonConfig(
     var cornerRadius: Float = 30f,
     var backgroundColor: Int? = android.R.color.black,
     var padding: Int = 16,
+    var margin: Int = 0,
     var strokeWidth: Int = 0,
     var strokeColor: Int = 0,
     var iconRes: Int? = null,

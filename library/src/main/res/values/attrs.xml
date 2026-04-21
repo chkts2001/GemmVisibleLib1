@@ -6,7 +6,8 @@
     <attr name="sGradientEnd" format="color" />
     <attr name="sStrokeWidth" format="dimension" />
     <attr name="sStrokeColor" format="color" />
-    <attr name="sPadding" format="dimension" />
+    <attr name="sCommonPadding" format="dimension" />
+    <attr name="sCommonMargin" format="dimension" />
     <attr name="sIcon" format="reference" />
     <attr name="sIconSize" format="dimension"/>
     <attr name="sIconTint" format="color|reference"/>
@@ -20,6 +21,24 @@
     <attr name="sTextColor" format="color|reference" />
     <attr name="sTextSize" format="dimension" />
     <attr name="sTypeface" format="string" />
+    <attr name="sCommonColor" format="color|reference" />
+    <attr name="sCommonPadding" format="dimension" />
+    <attr name="sCommonMargin" format="dimension" />
+
+    <declare-styleable name="DefaultListParam">
+        <attr name="sIcon"/>
+        <attr name="sIconSize"/>
+        <attr name="sIconTint" />
+        <attr name="sIconGravity"/>
+        <attr name="sIconPadding"/>
+        <attr name="sTextColor" />
+        <attr name="sTextSize"/>
+        <attr name="sTypeface"/>
+        <attr name="sCommonMargin"/>
+        <attr name="sCommonColor"/>
+        <attr name="sCommonPadding"/>
+        <attr name="sCommonMargin"/>
+    </declare-styleable>
 
     <declare-styleable name="DefaultTextView">
         <attr name="sCommonColorFlag" format="boolean" />
@@ -54,6 +73,7 @@
         <attr name="sStrokeWidthAllButton" format="dimension" />
         <attr name="sStrokeColorAllButton" format="color" />
         <attr name="sPaddingAllButton" format="dimension" />
+        <attr name="sMarginAllButton" format="dimension" />
         <attr name="sLeftIcon" format="reference" />
         <attr name="sRightIcon" format="reference"/>
 
@@ -74,7 +94,7 @@
         <attr name="sGradientEnd"/>
         <attr name="sStrokeWidth"/>
         <attr name="sStrokeColor"/>
-        <attr name="sPadding"/>
+        <attr name="sCommonPadding"/>
         <attr name="sIcon"/>
         <attr name="sIconSize"/>
         <attr name="sIconTint"/>
@@ -84,6 +104,8 @@
         <attr name="sTextColor"/>
         <attr name="sTextSize" />
         <attr name="sTypeface"/>
+        <attr name="sCommonColor" />
+
 
     </declare-styleable>
 </resources>

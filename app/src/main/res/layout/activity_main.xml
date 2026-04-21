@@ -14,13 +14,12 @@
         android:layout_weight="1" />
     <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:sCornersRadius="5dp"
+        android:layout_height="40dp"
+        app:sCornerRadius="5dp"
         app:sCommonCornerRadiusFlag="true"
-        app:sCommonColorFlag="true"
+        app:sCommonColor="@android:color/holo_red_dark"
         app:sStrokeWidth="2dp"
-        app:sStrokeColor="@color/black"
-        app:sBackgroundColorAllButton="@color/black"
+        app:sMarginAllButton="3dp"
         app:sLeftIcon="@drawable/ic_update_vector"
         app:sRightIcon="@drawable/ic_update_vector"/>
     <com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
