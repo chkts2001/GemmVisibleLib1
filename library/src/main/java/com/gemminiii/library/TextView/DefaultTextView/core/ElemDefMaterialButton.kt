@@ -1,17 +1,17 @@
 package com.gemminiii.library.TextView.DefaultTextView.core
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.widget.LinearLayout
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
-import com.gemminiii.library.TextView.DefaultTextView.config.TextViewConfig
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonDrawableConfig
 
 interface ElemDefMaterialButton {
     fun elemDefMaterialButtonCreate(
         context: Context,
         iconResLeft: Int? = null,
         iconResRight: Int? = null,
+        modeVisibleBtn: CommonEnums.ButtonVisibilityMode = CommonEnums.ButtonVisibilityMode.NONE,
+        buttonDrawConfig: ButtonDrawableConfig = ButtonDrawableConfig(),
         buttonConfig: ButtonConfig = ButtonConfig()
     ): Pair<DefaultMaterialButton, DefaultMaterialButton>
     fun elemDefMaterialButtonUpdateSize(

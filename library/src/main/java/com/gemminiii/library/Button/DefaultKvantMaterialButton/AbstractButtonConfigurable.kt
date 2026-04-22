@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.util.Log
 import android.widget.LinearLayout
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonDrawableConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 
 interface ButtonConfigurable<T>{
@@ -18,6 +19,7 @@ interface ButtonConfigurable<T>{
     fun sText(text: String? = null, size: Int? = 14, color: Int? = android.R.color.black, tf: Typeface? = null): T
 }
 abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: ButtonConfigurable<T>{
+    var drawableConfig = ButtonDrawableConfig()
     var config = ButtonConfig()
 
     override fun sWidth(width: Int): T{
@@ -30,24 +32,24 @@ abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: But
     }
 
     override fun sCornerRadius(radius: Float): T {
-        config.cornerRadius = radius
+        drawableConfig.cornerRadius = radius
         return this as T
     }
 
     override fun sBackgroundColor(color: Int): T {
-        config.backgroundColor = color
+        drawableConfig.backgroundColor = color
         return this as T
     }
 
     override fun sPaddings(padding: Int): T {
-        config.padding = padding + config.strokeWidth
+        drawableConfig.padding = padding + drawableConfig.strokeWidth
         return this as T
     }
 
     override fun sStroke(width: Int, color: Int): T {
-        config.strokeWidth = width
-        config.strokeColor = color
-        config.padding += config.strokeWidth
+        drawableConfig.strokeWidth = width
+        drawableConfig.strokeColor = color
+        drawableConfig.padding += drawableConfig.strokeWidth
         return this as T
     }
 
@@ -71,7 +73,7 @@ abstract class AbstractButtonConfigurable<T: AbstractButtonConfigurable<T>>: But
         return this as T
     }
     protected fun applyToButton(button: DefaultMaterialButton) {
-        button.applyStyles(config)
+        button.applyStyles(drawableConfig, config)
     }
 
     fun getCurrentConfig(): ButtonConfig = config.copy()

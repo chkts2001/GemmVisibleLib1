@@ -12,16 +12,45 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"
         android:layout_weight="1" />
-    <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:sCornerRadius="5dp"
-        app:sCommonCornerRadiusFlag="true"
-        app:sCommonColor="@android:color/holo_red_dark"
-        app:sStrokeWidth="2dp"
-        app:sMarginAllButton="3dp"
-        app:sLeftIcon="@drawable/ic_update_vector"
-        app:sRightIcon="@drawable/ic_update_vector"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:sCornerRadius="5dp"
+            app:sCommonCornerRadiusFlag="true"
+            app:sCommonColor="@android:color/black"
+            app:sButtonsVisibility="left"
+            app:sCornerRadiusTextElem="5dp"
+            app:sBackgroundColorTextElem="@android:color/transparent"
+            app:sStrokeWidthTextElem="2dp"
+            app:sCommonPadding="0dp"
+            app:sCommonMargin="3dp"
+            app:sTextElem="ТЕСТ"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:sLeftIcon="@drawable/ic_update_vector"
+            app:sRightIcon="@drawable/ic_update_vector"/>
+        <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:sCornerRadius="5dp"
+            app:sCommonCornerRadiusFlag="true"
+            app:sCommonColor="@android:color/black"
+            app:sButtonsVisibility="right"
+            app:sCornerRadiusTextElem="5dp"
+            app:sCommonPadding="0dp"
+            app:sCommonMargin="3dp"
+            app:sBackgroundColorTextElem="@android:color/transparent"
+            app:sStrokeWidthTextElem="2dp"
+            app:sTextElem="ТЕСТ"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:sLeftIcon="@drawable/ic_update_vector"
+            app:sRightIcon="@drawable/ic_update_vector"/>
+    </LinearLayout>
     <com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
         android:id="@+id/test_btn"
         android:layout_width="match_parent"

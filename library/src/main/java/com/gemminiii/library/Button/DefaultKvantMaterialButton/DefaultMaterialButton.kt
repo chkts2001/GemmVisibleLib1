@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -15,6 +16,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginEnd
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
+import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonDrawableConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonDrawable
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonState
@@ -48,6 +50,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private var scaleAnimator: ObjectAnimator? = null
 
+    private var buttonDrawableConfig = ButtonDrawableConfig()
     private var buttonConfig = ButtonConfig()
 
     init {
@@ -56,9 +59,9 @@ class DefaultMaterialButton @JvmOverloads constructor(
 
     private fun initAttributes(attrs: AttributeSet?) {
         attrs?.let {
-                buttonConfig.apply {
+                buttonDrawableConfig.apply {
                     context.obtainStyledAttributes(attrs, commonAttrArray).use { typedArray ->
-                        Log.d("FactoryDebug","1 common")
+                        Log.d("FactoryDebug", "1 common")
                         val commonAttr = context.readCommonAttributes(attrs)
                         // Основные параметры
                         cornerRadius = commonAttr.cornersRadius
@@ -68,6 +71,8 @@ class DefaultMaterialButton @JvmOverloads constructor(
                         padding = commonAttr.padding
                         margin = commonAttr.margin
                     }
+                }
+                buttonConfig.apply {
                     context.obtainStyledAttributes(it, R.styleable.DefaultListParam).apply {
                         try {
                         // Основные параметры
@@ -98,7 +103,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
                             R.styleable.DefaultListParam_sTextSize,
                             12
                         ) / resources.displayMetrics.scaledDensity).toInt()
-                        applyStyles(buttonConfig)
+                        applyStyles(buttonDrawableConfig, buttonConfig)
 
                         //val typefaceRes = getString(R.styleable.DefaultMaterialButton_buttonTypeface)
                         //textTypeface = getFont(R.styleable.DefaultMaterialButton_buttonTypeface)
@@ -110,47 +115,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
         }
     }
 
-    fun applyStyles(config: ButtonConfig) {
-//        Log.d("SizeDebug", "applyStyles CALLED")
-//        try {
-//            config.apply {
-//                Log.d("SizeDebug", "width in config: $width, height in config: $height")
-//                Log.d("ConfigDebug", "${config.text}")
-//                // Применяем фон
-//                backgroundTintList = null
-//                super.background = buttonDrawable.createBackground(
-//                    cornerRadius,
-//                    ContextCompat.getColor(context, backgroundColor!!),
-//                strokeWidth,
-//                ContextCompat.getColor(context, strokeColor)
-//                )
-//                val pxPadding = padding
-//                //super.setPadding( pxPadding, 0, pxPadding, 0)
-//                super.setPadding(pxPadding, 0, pxPadding, 0)
-//                text?.let {
-//                    buttonText.applyTextStyle(this@DefaultMaterialButton,
-//                        text,
-//                        ColorStateList.valueOf(ContextCompat.getColor(context, textColor)),
-//                        textSize,
-//                        textTypeface)
-//                }
-//                Log.d("_lib_", "$iconSize")
-//                iconRes?.let {
-//                    buttonIcon.applyIcon(
-//                        this@DefaultMaterialButton,
-//                        ContextCompat.getDrawable(context, it),
-//                        dpToPx(iconSize),
-//                        ColorStateList.valueOf(ContextCompat.getColor(context, iconTint)),
-//                        iconGravity
-//                    )
-//                }
-//                setSizeParams(width, height)
-//                forceRedraw()
-//            }
-//        }catch(e: Exception){
-//            Log.e("SizeDebug", "Exception in applyStyles: ${e.message}")
-//            e.printStackTrace()
-//        }
+    fun applyStyles(drawableConfig: ButtonDrawableConfig, config: ButtonConfig) {
         Log.d("FactoryDebug", "=== applyStyles START ===")
         Log.d("FactoryDebug", "Config text: ${config.text}")
         Log.d("FactoryDebug", "Config width: ${config.width}, height: ${config.height}")
@@ -162,7 +127,7 @@ class DefaultMaterialButton @JvmOverloads constructor(
                 this@DefaultMaterialButton.insetBottom = this.insetBottom
                 // Применяем фон
                 backgroundTintList = null
-                val bgColor = ContextCompat.getColor(context, backgroundColor!!)
+                val bgColor = ContextCompat.getColor(context, drawableConfig.backgroundColor!!)
                 setBackgroundColor(bgColor)
 
 
@@ -205,10 +170,10 @@ class DefaultMaterialButton @JvmOverloads constructor(
                         dpToPx(height)
                     }
                     (lp as? ViewGroup.MarginLayoutParams)?.setMargins(
-                        dpToPx(config.margin),  // left
-                        dpToPx(config.margin),  // top
-                        dpToPx(config.margin),  // right
-                        dpToPx(config.margin)
+                        dpToPx(drawableConfig.margin),  // left
+                        dpToPx(drawableConfig.margin),  // top
+                        dpToPx(drawableConfig.margin),  // right
+                        dpToPx(drawableConfig.margin)
                     )
                     layoutParams = lp
                     Log.d("FactoryDebug", "New size: ${lp.width}x${lp.height}")
@@ -246,11 +211,11 @@ class DefaultMaterialButton @JvmOverloads constructor(
         }
     }
 
-    fun updateConfig(block: ButtonConfig.() -> Unit) {
-        buttonConfig = buttonConfig.copyWith(block)
-        applyStyles(buttonConfig)
-        forceUpdateSize()
-    }
+//    fun updateConfig(block: ButtonConfig.() -> Unit) {
+//        buttonConfig = buttonConfig.copyWith(block)
+//        applyStyles(buttonConfig)
+//        forceUpdateSize()
+//    }
 
     private fun forceUpdateSize() {
         val parent = parent as? ViewGroup
@@ -385,40 +350,40 @@ class DefaultMaterialButton @JvmOverloads constructor(
             }
         }
     }
-    fun setIcon(_icon: Int?, _iconSize: Int, _iconTint: Int, _position: ButtonIcon.IconPosition = buttonConfig.iconGravity) {
-        if(_icon != null){
-            buttonConfig.apply {
-                _icon.let {
-                    iconRes = it
-                    iconSize = dpToPx(_iconSize)
-                    iconTint = _iconTint
-                    iconGravity = _position
-                    applyStyles(this)
-                }
-            }
+//    fun setIcon(_icon: Int?, _iconSize: Int, _iconTint: Int, _position: ButtonIcon.IconPosition = buttonConfig.iconGravity) {
+//        if(_icon != null){
+//            buttonConfig.apply {
+//                _icon.let {
+//                    iconRes = it
+//                    iconSize = dpToPx(_iconSize)
+//                    iconTint = _iconTint
+//                    iconGravity = _position
+//                    applyStyles(this)
+//                }
+//            }
+//
+//        }
+//    }
 
-        }
-    }
-
-    fun setTextParams(_text: String?, size: Int?, color: Int?, tf: Typeface?){
-        if(text != null) {
-            buttonConfig.apply {
-                text = _text
-                super.setText(text)
-                if (size != null) setTextSize(size.toFloat())
-                if (color != null) {
-                    setTextColor(
-                        ColorStateList.valueOf(
-                            if (color.toString().startsWith("0x") || color > 0xFFFFFF) color
-                            else ContextCompat.getColor(context, color)
-                        )
-                    )
-                }
-                if (tf != null) textTypeface = tf
-                applyStyles(this)
-            }
-        }
-    }
+//    fun setTextParams(_text: String?, size: Int?, color: Int?, tf: Typeface?){
+//        if(text != null) {
+//            buttonConfig.apply {
+//                text = _text
+//                super.setText(text)
+//                if (size != null) setTextSize(size.toFloat())
+//                if (color != null) {
+//                    setTextColor(
+//                        ColorStateList.valueOf(
+//                            if (color.toString().startsWith("0x") || color > 0xFFFFFF) color
+//                            else ContextCompat.getColor(context, color)
+//                        )
+//                    )
+//                }
+//                if (tf != null) textTypeface = tf
+//                applyStyles(this)
+//            }
+//        }
+//    }
 
     override fun setTextColor(colorStateList: ColorStateList) {
         customTextColor = colorStateList

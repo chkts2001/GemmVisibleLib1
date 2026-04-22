@@ -7,12 +7,6 @@ import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
 data class ButtonConfig(
     var width: Int = LinearLayout.LayoutParams.MATCH_PARENT,
     var height: Int = 40,
-    var cornerRadius: Float = 30f,
-    var backgroundColor: Int? = android.R.color.black,
-    var padding: Int = 16,
-    var margin: Int = 0,
-    var strokeWidth: Int = 0,
-    var strokeColor: Int = 0,
     var iconRes: Int? = null,
     var iconSize: Int = 24,
     var iconTint: Int = android.R.color.white,

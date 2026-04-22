@@ -45,8 +45,8 @@ fun Context.readCommonAttributes(attrs: AttributeSet?): CommonAttr {
         val strokeWidth = typedArray.getDimensionPixelSize(3, 0)
         val strokeColor =
             typedArray.getResourceId(4, commonColor) // commonColor как значение по умолчанию
-        val padding = typedArray.getDimensionPixelSize(5, 6)
-        val margin = typedArray.getDimensionPixelSize(6, 0)
+        val padding = typedArray.getDimensionPixelSize(5, 3)
+        val margin = typedArray.getDimensionPixelSize(6, 3)
 
         Log.d("FactoryDebug", "commonColor: $commonColor")
         Log.d("FactoryDebug", "strokeColor: $strokeColor (using commonColor as default)")

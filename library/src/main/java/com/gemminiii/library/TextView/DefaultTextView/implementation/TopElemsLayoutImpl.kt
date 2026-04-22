@@ -2,7 +2,7 @@ package com.gemminiii.library.TextView.DefaultTextView.implementation
 
 import android.graphics.drawable.Drawable
 import android.widget.LinearLayout
-import com.gemminiii.library.TextView.DefaultTextView.config.TextViewConfig
+import com.gemminiii.library.TextView.DefaultTextView.config.CommonConfig
 import com.gemminiii.library.TextView.DefaultTextView.core.TopElemsLayout
 
 class TopElemsLayoutImpl(private val antiAlias: Boolean = true): TopElemsLayout {
@@ -10,7 +10,7 @@ class TopElemsLayoutImpl(private val antiAlias: Boolean = true): TopElemsLayout 
         width: Int,
         height: Int,
         drawable: Drawable,
-        config: TextViewConfig
+        config: CommonConfig
     ): LinearLayout {
         TODO("Not yet implemented")
     }

@@ -6,8 +6,6 @@
     <attr name="sGradientEnd" format="color" />
     <attr name="sStrokeWidth" format="dimension" />
     <attr name="sStrokeColor" format="color" />
-    <attr name="sCommonPadding" format="dimension" />
-    <attr name="sCommonMargin" format="dimension" />
     <attr name="sIcon" format="reference" />
     <attr name="sIconSize" format="dimension"/>
     <attr name="sIconTint" format="color|reference"/>
@@ -34,7 +32,6 @@
         <attr name="sTextColor" />
         <attr name="sTextSize"/>
         <attr name="sTypeface"/>
-        <attr name="sCommonMargin"/>
         <attr name="sCommonColor"/>
         <attr name="sCommonPadding"/>
         <attr name="sCommonMargin"/>
@@ -43,7 +40,6 @@
     <declare-styleable name="DefaultTextView">
         <attr name="sCommonColorFlag" format="boolean" />
         <attr name="sCommonCornerRadiusFlag" format="boolean" />
-
 <!--        text element-->
         <attr name="sCornerRadiusTextElem" format="dimension" />
         <attr name="sBackgroundColorTextElem" format="color|reference" />
@@ -95,6 +91,8 @@
         <attr name="sStrokeWidth"/>
         <attr name="sStrokeColor"/>
         <attr name="sCommonPadding"/>
+        <attr name="sCommonMargin"/>
+
         <attr name="sIcon"/>
         <attr name="sIconSize"/>
         <attr name="sIconTint"/>
