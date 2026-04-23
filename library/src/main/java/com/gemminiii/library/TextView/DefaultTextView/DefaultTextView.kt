@@ -15,9 +15,9 @@ import com.gemminiii.library.TextView.DefaultTextView.config.CommonConfig
 import com.gemminiii.library.TextView.DefaultTextView.config.ProgressBarConfig
 import com.gemminiii.library.TextView.DefaultTextView.config.TextViewConfig
 import com.gemminiii.library.TextView.DefaultTextView.config.DrawableConfig
+import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums.HeaderPositionMode
 import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums.BottomElementMode
 import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums.ButtonVisibilityMode
-import com.gemminiii.library.TextView.DefaultTextView.core.ElemTextView
 import com.gemminiii.library.TextView.DefaultTextView.implementation.ElemDefMaterialButtonImpl
 import com.gemminiii.library.TextView.DefaultTextView.implementation.ElemTextViewImpl
 import com.gemminiii.library.TextView.DefaultTextView.implementation.sDrawableImpl
@@ -33,10 +33,11 @@ class DefaultTextView @JvmOverloads constructor(
     private var buttonConfig = ButtonConfig()
     private var textDrawableConfig = DrawableConfig()
     private var textConfig = TextViewConfig()
-    private var bottomTextDrawableConfig = DrawableConfig()
+    private var bottomElemDrawableConfig = DrawableConfig()
     private var bottomTextConfig = TextViewConfig()
-    private var bottomProgressDrawableConfig = DrawableConfig()
     private var bottomProgressConfig = ProgressBarConfig()
+    private var headerDrawableConfig = DrawableConfig()
+    private var headerConfig = TextViewConfig()
 
 
     val buttonsFunc = ElemDefMaterialButtonImpl()
@@ -84,6 +85,13 @@ class DefaultTextView @JvmOverloads constructor(
                                 3 -> ButtonVisibilityMode.ALL
                                 else -> ButtonVisibilityMode.NONE
                             }
+                        commonConfig.headerPositionMode =
+                            when(getInt(R.styleable.DefaultTextView_sHeaderPositionMode, 0)){
+                                1 -> HeaderPositionMode.TOP
+                                2 -> HeaderPositionMode.LEFT
+                                3 -> HeaderPositionMode.RIGHT
+                                else -> HeaderPositionMode.NONE
+                            }
 
                         commonConfig.iconResButtonLeft =
                             getResourceId(R.styleable.DefaultTextView_sLeftIcon, 0)
@@ -119,6 +127,7 @@ class DefaultTextView @JvmOverloads constructor(
                             getResourceId(R.styleable.DefaultTextView_sTextColorElem, R.color.black)
                         //textTypefaceElem = getString(R.styleable.DefEditTextViewParam_sTypefaceElem)
 
+                        //buttons element
                         buttonConfig.width = 40
                         buttonConfig.height = 40
                         //кнопки по краям
@@ -145,39 +154,6 @@ class DefaultTextView @JvmOverloads constructor(
                             0
                         ) + buttonDrawableConfig.strokeWidth)
                         buttonDrawableConfig.margin = commonDrawableConfig.margin
-
-                        bottomTextDrawableConfig.cornersRadius = getDimensionPixelSize(
-                            R.styleable.DefaultTextView_sCornerRadiusBottomElem,
-                            5
-                        ).toFloat()
-                        bottomTextDrawableConfig.backgroundColor = getResourceId(
-                            R.styleable.DefaultTextView_sBackgroundColorBottomElem,
-                            R.color.black
-                        )
-                        bottomTextDrawableConfig.strokeWidth = getDimensionPixelSize(
-                            R.styleable.DefaultTextView_sStrokeWidthBottomElem,
-                            0
-                        )
-                        bottomTextDrawableConfig.strokeColor = getResourceId(
-                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
-                            R.color.black
-                        )
-                        bottomTextDrawableConfig.padding = dpToPx(getDimensionPixelSize(
-                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
-                            0
-                        ) + bottomTextDrawableConfig.strokeWidth)
-                        bottomTextDrawableConfig.margin = commonDrawableConfig.margin
-
-                        bottomTextConfig.textTv =
-                            getString(R.styleable.DefaultTextView_sTextBottomElem)
-                        bottomTextConfig.textSizeTv = dpToPx(getDimensionPixelSize(
-                            R.styleable.DefaultTextView_sTextSizeBottomElem,
-                            0
-                        ))
-                        bottomTextConfig.textColorTv = getResourceId(
-                            R.styleable.DefaultTextView_sTextColorBottomElem,
-                            R.color.black
-                        )
                         buttonConfig.iconSize =
                             getDimensionPixelSize(R.styleable.DefaultTextView_sIconSize, 24)
                         buttonConfig.iconTint =
@@ -189,6 +165,73 @@ class DefaultTextView @JvmOverloads constructor(
                                 2 -> ButtonIcon.IconPosition.CENTER
                                 else -> ButtonIcon.IconPosition.CENTER
                             }
+
+                        // bottom element
+                        bottomElemDrawableConfig.cornersRadius = getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sCornerRadiusBottomElem,
+                            5
+                        ).toFloat()
+                        bottomElemDrawableConfig.backgroundColor = getResourceId(
+                            R.styleable.DefaultTextView_sBackgroundColorBottomElem,
+                            R.color.black
+                        )
+                        bottomElemDrawableConfig.strokeWidth = getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sStrokeWidthBottomElem,
+                            0
+                        )
+                        bottomElemDrawableConfig.strokeColor = getResourceId(
+                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
+                            R.color.black
+                        )
+                        bottomElemDrawableConfig.padding = dpToPx(getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
+                            0
+                        ) + bottomElemDrawableConfig.strokeWidth)
+                        bottomElemDrawableConfig.margin = commonDrawableConfig.margin
+
+                        bottomTextConfig.textTv =
+                            getString(R.styleable.DefaultTextView_sTextBottomElem)
+                        bottomTextConfig.textSizeTv = dpToPx(getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sTextSizeBottomElem,
+                            0
+                        ))
+                        bottomTextConfig.textColorTv = getResourceId(
+                            R.styleable.DefaultTextView_sTextColorBottomElem,
+                            R.color.black
+                        )
+                        bottomProgressConfig.bottomProgressBackgroundColor = getResourceId(
+                            R.styleable.DefaultTextView_sBottomProgressBackgroundColor,
+                            android.R.color.transparent)
+                        bottomProgressConfig.bottomProgressTrackColor = getResourceId(
+                            R.styleable.DefaultTextView_sBottomProgressTrackColor, R.color.black
+                        )
+
+                        //headerElement
+                        headerDrawableConfig.cornersRadius = getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sCornerRadiusBottomElem,
+                            5
+                        ).toFloat()
+                        headerDrawableConfig.backgroundColor = getResourceId(
+                            R.styleable.DefaultTextView_sBackgroundColorBottomElem,
+                            R.color.black
+                        )
+                        headerDrawableConfig.strokeWidth = getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sStrokeWidthBottomElem,
+                            0
+                        )
+                        headerDrawableConfig.strokeColor = getResourceId(
+                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
+                            R.color.black
+                        )
+                        headerDrawableConfig.padding = dpToPx(getDimensionPixelSize(
+                            R.styleable.DefaultTextView_sStrokeColorBottomElem,
+                            0
+                        ) + bottomElemDrawableConfig.strokeWidth)
+                        headerDrawableConfig.margin = commonDrawableConfig.margin
+                        headerConfig.textTv = getString(R.styleable.DefaultTextView_sTextElem)
+                        headerConfig.textSizeTv = getDimensionPixelSize(R.styleable.DefaultTextView_sTextSizeElem, 14)
+                        headerConfig.textColorTv =
+                            getResourceId(R.styleable.DefaultTextView_sTextColorElem, R.color.black)
                         //textTypefaceBottomElem
                     } catch (e: Exception) {
 

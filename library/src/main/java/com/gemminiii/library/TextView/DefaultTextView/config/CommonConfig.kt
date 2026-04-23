@@ -10,6 +10,7 @@ class CommonConfig(
     var commonColor: Int = 0,
     var bottomType: CommonEnums.BottomElementMode = CommonEnums.BottomElementMode.NONE,
     var buttonVisibilityType: CommonEnums.ButtonVisibilityMode = CommonEnums.ButtonVisibilityMode.NONE,
+    var headerPositionMode: CommonEnums.HeaderPositionMode = CommonEnums.HeaderPositionMode.NONE,
 
     // Левая/Правая кнопки
     var iconResButtonLeft: Int? = null,

@@ -7,5 +7,9 @@ interface CommonEnums {
     enum class BottomElementMode {
         NONE, TEXT, PROGRESS
     }
+
+    enum class HeaderPositionMode{
+        NONE, TOP, LEFT, RIGHT
+    }
 }
 
