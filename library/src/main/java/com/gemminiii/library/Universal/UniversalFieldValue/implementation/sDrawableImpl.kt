@@ -1,19 +1,20 @@
-package com.gemminiii.library.TextView.DefaultTextView.implementation
+package com.gemminiii.library.Universal.UniversalFieldValue.implementation
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.util.Log
-import com.gemminiii.library.TextView.DefaultTextView.core.sDrawable
+import com.gemminiii.library.Universal.UniversalFieldValue.core.sDrawable
 
-class sDrawableImpl: sDrawable{
+class sDrawableImpl: sDrawable {
     override fun createDrawable(
         cornerRadius: Float?,
         backgroundColor: Int?,
         strokeWidth: Int?,
         strokeColor: Int?
-    ): android.graphics.drawable.Drawable {
+    ): Drawable {
         val mainDrawable = GradientDrawable().apply {
             if (cornerRadius != null) this.cornerRadius = cornerRadius
             if (backgroundColor != null) setColor(backgroundColor)

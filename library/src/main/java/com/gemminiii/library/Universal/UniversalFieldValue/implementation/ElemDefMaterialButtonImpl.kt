@@ -1,14 +1,15 @@
-package com.gemminiii.library.TextView.DefaultTextView.implementation
+package com.gemminiii.library.Universal.UniversalFieldValue.implementation
 
 import android.content.Context
+import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.config.ButtonDrawableConfig
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
-import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums
-import com.gemminiii.library.TextView.DefaultTextView.core.ElemDefMaterialButton
+import com.gemminiii.library.Universal.UniversalFieldValue.core.CommonEnums
+import com.gemminiii.library.Universal.UniversalFieldValue.core.ElemDefMaterialButton
 
 class ElemDefMaterialButtonImpl(private val antiAlias: Boolean = true): ElemDefMaterialButton {
     lateinit var leftButton: DefaultMaterialButton
@@ -41,22 +42,25 @@ class ElemDefMaterialButtonImpl(private val antiAlias: Boolean = true): ElemDefM
 
     override fun elemDefMaterialButtonUpdateSize(width: Int, height: Int, margin: Int) {
         leftButton.layoutParams = LinearLayout.LayoutParams(width,
-            height).apply { setMargins(margin, margin, margin, margin) }
+            height).apply { setMargins(margin, margin, margin, margin)
+            gravity = Gravity.TOP
+        }
         rightButton.layoutParams = LinearLayout.LayoutParams(width,
-            height).apply { setMargins(margin, margin, margin, margin) }
+            height).apply { setMargins(margin, margin, margin, margin)
+            gravity = Gravity.TOP}
     }
 
-    fun setLeftButtonClickListener(listener: (android.view.View) -> Unit) {
+    fun setLeftButtonClickListener(listener: (View) -> Unit) {
         leftButton.setOnClickListener { listener(it) }
     }
 
-    fun setRightButtonClickListener(listener: (android.view.View) -> Unit) {
+    fun setRightButtonClickListener(listener: (View) -> Unit) {
         rightButton.setOnClickListener { listener(it) }
     }
 
     fun setBothButtonsClickListeners(
-        leftListener: (android.view.View) -> Unit,
-        rightListener: (android.view.View) -> Unit
+        leftListener: (View) -> Unit,
+        rightListener: (View) -> Unit
     ) {
         leftButton.setOnClickListener { leftListener(it) }
         rightButton.setOnClickListener { rightListener(it) }

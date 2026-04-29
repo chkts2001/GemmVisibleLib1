@@ -1,24 +1,22 @@
-package com.gemminiii.library.TextView.DefaultTextView.implementation
+package com.gemminiii.library.Universal.UniversalFieldValue.implementation
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.gemminiii.library.Button.DefaultKvantMaterialButton.core.ButtonIcon
-import com.gemminiii.library.TextView.DefaultTextView.config.CommonConfig
-import com.gemminiii.library.TextView.DefaultTextView.config.DrawableConfig
-import com.gemminiii.library.TextView.DefaultTextView.config.TextViewConfig
-import com.gemminiii.library.TextView.DefaultTextView.core.ElemTextView
+import com.gemminiii.library.Universal.UniversalFieldValue.config.DrawableConfig
+import com.gemminiii.library.Universal.UniversalFieldValue.config.TextElemConfig
+import com.gemminiii.library.Universal.UniversalFieldValue.core.ElemTextView
 
 class ElemTextViewImpl(private val antiAlias: Boolean = true): ElemTextView {
     lateinit var textView: TextView
     override fun textViewCreate(
         context: Context,
         drawableConfig: DrawableConfig,
-        config: TextViewConfig
+        config: TextElemConfig,
+        gravity: Int
     ): TextView {
         textView = TextView(context).apply {
             config.apply {
@@ -40,8 +38,8 @@ class ElemTextViewImpl(private val antiAlias: Boolean = true): ElemTextView {
         return textView
     }
 
-    override fun textViewUpdateSize(width: Int, height: Int, margin: Int) {
-        textView.layoutParams = LinearLayout.LayoutParams(width, height, 1f).apply {
+    override fun textViewUpdateSize(width: Int, height: Int, margin: Int, weight: Float) {
+        textView.layoutParams = LinearLayout.LayoutParams(width, height, weight).apply {
             setMargins(margin,margin, margin, margin)
         }
     }

@@ -16,9 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
+        <com.gemminiii.library.Universal.UniversalFieldValue.DefaultTextView
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             app:sCornerRadius="5dp"
             app:sCommonCornerRadiusFlag="true"
             app:sCommonColor="@android:color/black"
@@ -29,13 +29,27 @@
             app:sCommonPadding="0dp"
             app:sCommonMargin="3dp"
             app:sTextElem="ТЕСТ"
+            app:sPaddingTextElem="2dp"
+
+            app:sHeaderPositionMode="TOP"
+            app:sTextHeader="Установить размер текста:"
+            app:sTextSizeHeader="14sp"
+            app:sTextColorHeader="@color/black"
+
+            app:sBottomElemMode="text"
+            app:sBottomProgressTrackColor="@color/black"
+            app:sBackgroundColorBottomElem="@android:color/transparent"
+            app:sTextBottomElem="ошибка"
+            app:sTextSizeBottomElem="10dp"
+            app:sTextColorBottomElem="@color/red"
+
             android:layout_weight="1"
             android:gravity="center"
             app:sLeftIcon="@drawable/ic_update_vector"
             app:sRightIcon="@drawable/ic_update_vector"/>
-        <com.gemminiii.library.TextView.DefaultTextView.DefaultTextView
+        <com.gemminiii.library.Universal.UniversalFieldValue.DefaultTextView
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             app:sCornerRadius="5dp"
             app:sCommonCornerRadiusFlag="true"
             app:sCommonColor="@android:color/black"
@@ -45,6 +59,20 @@
             app:sCommonMargin="3dp"
             app:sBackgroundColorTextElem="@android:color/transparent"
             app:sStrokeWidthTextElem="2dp"
+            android:visibility="gone"
+
+            app:sBottomElemMode="progress"
+            app:sBottomProgressTrackColor="@color/black"
+            app:sBackgroundColorBottomElem="@android:color/transparent"
+            app:sTextBottomElem="ошибка"
+            app:sTextSizeBottomElem="10dp"
+            app:sTextColorBottomElem="@color/red"
+
+            app:sHeaderPositionMode="TOP"
+            app:sTextHeader="Заголовок"
+            app:sTextSizeHeader="10dp"
+            app:sTextColorHeader="@color/red"
+
             app:sTextElem="ТЕСТ"
             android:layout_weight="1"
             android:gravity="center"

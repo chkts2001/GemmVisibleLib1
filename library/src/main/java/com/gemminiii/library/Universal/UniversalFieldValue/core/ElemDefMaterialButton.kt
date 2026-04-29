@@ -1,4 +1,4 @@
-package com.gemminiii.library.TextView.DefaultTextView.core
+package com.gemminiii.library.Universal.UniversalFieldValue.core
 
 import android.content.Context
 import com.gemminiii.library.Button.DefaultKvantMaterialButton.DefaultMaterialButton

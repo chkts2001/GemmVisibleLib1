@@ -1,7 +1,6 @@
-package com.gemminiii.library.TextView.DefaultTextView.config
+package com.gemminiii.library.Universal.UniversalFieldValue.config
 
-import android.graphics.Typeface
-import com.gemminiii.library.TextView.DefaultTextView.core.CommonEnums
+import com.gemminiii.library.Universal.UniversalFieldValue.core.CommonEnums
 
 class CommonConfig(
     //common параметры

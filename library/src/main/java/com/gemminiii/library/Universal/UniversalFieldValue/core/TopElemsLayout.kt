@@ -1,8 +1,8 @@
-package com.gemminiii.library.TextView.DefaultTextView.core
+package com.gemminiii.library.Universal.UniversalFieldValue.core
 
 import android.graphics.drawable.Drawable
 import android.widget.LinearLayout
-import com.gemminiii.library.TextView.DefaultTextView.config.CommonConfig
+import com.gemminiii.library.Universal.UniversalFieldValue.config.CommonConfig
 
 interface TopElemsLayout {
     fun topElemsLinearCreate(width: Int,

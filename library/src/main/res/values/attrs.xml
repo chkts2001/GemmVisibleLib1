@@ -50,6 +50,15 @@
         <attr name="sTextColorElem" format="color|reference" />
         <attr name="sTextSizeElem" format="dimension" />
         <attr name="sTypefaceElem" format="string" />
+        <attr name="sHintElem" format="string"/>
+        <attr name="sHintColorElem" format="color|reference"/>
+        <attr name="sUnderTextLineColor" format="color|reference"/>
+        <attr name="sCursorColor" format="color|reference"/>
+
+        <attr name="sCommonElemsType" format="enum">
+            <enum name="TEXT" value="0"/>
+            <enum name="EDIT" value="1"/>
+        </attr>
 
         <attr name="sButtonsVisibility" format="enum">
             <enum name="none" value="0" />
@@ -57,7 +66,7 @@
             <enum name="right" value="2"/>
             <enum name="all" value="3"/>
         </attr>
-        <attr name="sBottomStatusVisibility" format="enum">
+        <attr name="sBottomElemMode" format="enum">
             <enum name="none" value="0"/>
             <enum name="text" value="1"/>
             <enum name="progress" value="2"/>
@@ -92,12 +101,14 @@
         <attr name="sBottomProgressBackgroundColor" format="color|reference" />
         <attr name="sBottomProgressTrackColor" format="color|reference" />
 
+
+        <!--        Header -->
         <attr name="sCornerRadiusHeader" format="dimension" />
         <attr name="sBackgroundColorHeader" format="color|reference" />
         <attr name="sStrokeWidthHeader" format="dimension" />
         <attr name="sStrokeColorHeader" format="color" />
         <attr name="sPaddingHeader" format="dimension" />
-        <attr name="sTextBotHeader" format="string" />
+        <attr name="sTextHeader" format="string" />
         <attr name="sTextColorHeader" format="color|reference" />
         <attr name="sTextSizeHeader" format="dimension" />
         <attr name="sTypefaceHeader" format="string" />
